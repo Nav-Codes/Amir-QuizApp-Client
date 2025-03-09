@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<!--fill form field class name then press button
+      -> backend creates session and returns session id
+        -> reload page but with query parameter session id in url
+          -> display session id to teacher
+          -> teacher can share session id with students or via link(to studentSession page with query parmaeter session id)
+    underneath the session and link information
+    is the main question area with a start (recording) question button
+      -> when pressed, start recording the question
+        -> when pressed again, stop recording the question
+        -> if possible we should be sending to backend ai while recording in order to get real time feedback
+          -> Ajax to display parsed question to teacher
+            -> if bad, tell ai to try again
+            -> if good, teacher can 'confirm' the question
+              -> send message to backend so students can receive the question    
+              -> ajax diplay student responses in real time
+                -> teacher can end current question period
+                  -> teacher can start new question
+                    -> repeat
+      -->

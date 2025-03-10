@@ -37,3 +37,14 @@ export const teacherMain = {
   welcome: "Welcome, Teacher!",
   dashboardDescription: "Here you can start a new session, view statistics, and check the logs."
 };
+
+export const errorMessages = {
+  startSessionFailed: "Failed to start the session:",
+  startSessionError: "Error starting session:",
+  viewStatsFailed: "Failed to load stats:",
+  viewStatsError: "Error fetching stats:",
+  viewLogsFailed: "Failed to load logs:",
+  viewLogsError: "Error fetching logs:",
+  logoutFailed: "Logout failed:",
+  logoutError: "Logout failed due to network error:"
+};

@@ -10,10 +10,17 @@ class utils {
     document.getElementById("signup").innerHTML = common.signup;
     document.getElementById("home").innerHTML = common.home;
   }
+  static buildLoginPage(postEndpoint) {
+    const page = new loginPage(postEndpoint);
+    loginPage.submissionLogic();
+  }
 }
 
-class setup {
-  static submissionLogic(postEndpoint) {
+class loginPage {
+  constructor(postEndpoint) {
+    this.postEndpoint = postEndpoint;
+  }
+  static submissionLogic() {
     document.addEventListener("DOMContentLoaded", () => {
       const loginForm = document.getElementById("loginForm");
 
@@ -67,6 +74,4 @@ class setup {
 }
 
 utils.setUserFacingString();
-
-// change endpoint when provided by backend team
-setup.submissionLogic("http://localhost:3000/login");
+utils.buildLoginPage("/login");

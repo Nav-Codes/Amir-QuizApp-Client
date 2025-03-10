@@ -1,11 +1,12 @@
-import { messages } from '../lang/en/messages.js';
+import { common } from '../lang/en/messages.js';
+import { home } from '../lang/en/messages.js';
 
 class utils {
   static setUserFacingString() {
-    document.getElementById("welcome").innerHTML = messages.welcome;
-    document.getElementById("redirectLoginSignup").innerHTML = messages.redirectLoginSignup;
-    document.getElementById("login").innerHTML = messages.login;
-    document.getElementById("signup").innerHTML = messages.signup;
+    document.getElementById("welcome").innerHTML = home.welcome;
+    document.getElementById("redirectLoginSignup").innerHTML = home.redirectLoginSignup;
+    document.getElementById("login").innerHTML = common.login;
+    document.getElementById("signup").innerHTML = common.signup;
   }
 }
 utils.setUserFacingString();

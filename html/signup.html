@@ -2,3 +2,42 @@
 <!--the signup page
     can go to login, home
     or teacherMain/studentMain pages(after authentication)-->
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up</title>
+  <link rel="icon" type="image/icon" href="/images/favicon.ico">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1 id="welcome"></h1>
+    <div class="form-container">
+      <form id="signupForm">
+        <label for="name" id="formName"></label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="email" id="formEmail"></label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="password" id="formPassword"></label>
+        <input type="password" id="password" name="password" required>
+
+        <label for="confirmPassword" id="formConfirmPassword"></label>
+        <input type="password" id="confirmPassword" name="confirmPassword" required>
+
+        <button type="submit" class="btn" id="signup"></button>
+      </form>
+    </div>
+    <div id="error"></div>
+    <div class="btn-container">
+      <a href="login.html" class="btn" id="login"></a>
+      <a href="home.html" class="btn" id="home"></a>
+    </div>
+  </div>
+  <script type="module" src="../js/signup.js"></script>
+</body>
+
+</html>

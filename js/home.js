@@ -7,6 +7,7 @@ class utils {
     document.getElementById("redirectLoginSignup").innerHTML = home.redirectLoginSignup;
     document.getElementById("login").innerHTML = common.login;
     document.getElementById("signup").innerHTML = common.signup;
+    document.getElementById("description").innerHTML = home.description;
   }
 }
 utils.setUserFacingString();

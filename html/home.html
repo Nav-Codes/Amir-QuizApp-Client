@@ -7,15 +7,33 @@
 <head>
   <meta charset="UTF-8">
   <title>Home</title>
+  <link rel="icon" type="image/icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="../css/style.css">
 </head>
 
 <body>
   <div class="container">
     <h1 id="welcome"></h1>
-    <p id="redirectLoginSignup"></p>
-    <a href="login.html" class="btn" id="login"></a>
-    <a href="signup.html" class="btn" id="signup"></a>
+    <img src="../images/logowhite.png" alt="logo">
+    <p id="description"></p>
+
+    <div class="row">
+      <div class="column">
+        <div class="box">
+          <img src="../images/landing.png" alt="animated png of demo">
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="box">
+          <p id="redirectLoginSignup"></p>
+        </div>
+        <div class="btn-container">
+          <a href="login.html" class="btn" id="login"></a>
+          <a href="signup.html" class="btn" id="signup"></a>
+        </div>
+      </div>
+    </div>
   </div>
   <script type="module" src="../js/home.js"></script>
 </body>

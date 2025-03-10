@@ -1,5 +1,37 @@
 <!DOCTYPE html>
-<!--after authentication this will be the main menu for the teacher
-    Start new session functionality
-      -> redirect to teacherSession page 
-    will include links to pages related to statistics/logs later-->
+<!-- After authentication, this will be the main menu for the teacher 
+     Start new session functionality
+     -> Redirect to teacherSession page
+     Will include links to pages related to statistics/logs later -->
+
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Teacher Dashboard</title>
+  <link rel="icon" type="image/icon" href="/images/favicon.ico">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1 id="welcomeTeacher"></h1>
+    <div class="form-container">
+      <p id="dashboardDescription"></p>
+      <div class="btn-container">
+        <a href="teacherSession.html" class="btn" id="startSession"></a>
+        <a href="statistics.html" class="btn" id="viewStats"></a>
+        <a href="logs.html" class="btn" id="viewLogs"></a>
+      </div>
+    </div>
+    <div class="btn-container">
+      <a href="home.html" class="btn" id="home"></a>
+      <!-- Logout button to be changed to function-->
+      <a href="logout.html" class="btn red" id="logout"></a>
+    </div>
+  </div>
+
+  <script type="module" src="../js/teacherMain.js"></script>
+</body>
+
+</html>

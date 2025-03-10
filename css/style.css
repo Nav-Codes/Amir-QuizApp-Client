@@ -99,6 +99,14 @@ img[alt="logo"] {
   background-color: #0056b3;
 }
 
+.red {
+  background-color: #dc3545;
+}
+
+.red:hover {
+  background-color: #bd2130;
+}
+
 #welcome {
   font-size: 2rem;
   margin-bottom: 10px;

@@ -1,7 +1,11 @@
 export const common = {
   login: 'Log in',
+  logout: 'Log out',
   signup: 'Sign up',
-  home: 'Home'
+  home: 'Home',
+  startSession: "Start New Session",
+  viewStats: "View Statistics",
+  viewLogs: "View Logs"
 };
 
 export const home = {
@@ -27,4 +31,9 @@ export const signup = {
   passwordMismatch: "Passwords do not match!",
   unknownRole: "Unknown role. Contact admin.",
   signupFailed: 'Signup failed: '
+};
+
+export const teacherMain = {
+  welcome: "Welcome, Teacher!",
+  dashboardDescription: "Here you can start a new session, view statistics, and check the logs."
 };

@@ -1,8 +1,30 @@
 import { common } from '../lang/en/messages.js';
 import { teacherMain } from '../lang/en/messages.js';
-import { errorMessages } from '../lang/en/messages.js'; // Import error messages
-
+import { errorMessages } from '../lang/en/messages.js';
 class utils {
+  static checkAuth(tokenEndpoint) {
+    const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
+    if (!token || !role || role !== "teacher") {
+      window.location.href = "home.html";
+    }
+    fetch(tokenEndpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token, role })
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (!response.ok) {
+          window.location.href = "home.html";
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        window.location.href = "home.html";
+      });
+  }
+
   static setteacherMainStrings() {
     document.getElementById("welcomeTeacher").innerHTML = teacherMain.welcome;
     document.getElementById("dashboardDescription").innerHTML = teacherMain.dashboardDescription;
@@ -117,5 +139,6 @@ class teacherMainPage {
   }
 }
 
+// utils.checkAuth('/auth');
 utils.setteacherMainStrings();
 utils.buildTeacherMainPage('/startSession', '/viewStats', '/viewLogs', '/logout');

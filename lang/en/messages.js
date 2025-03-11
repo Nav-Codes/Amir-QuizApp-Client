@@ -46,6 +46,7 @@ export const teacherSession = {
   sessionLinkLabel: "Share this link with students:",
   askQuestionTitle: "Ask a Question",
   startRecording: "Start Recording",
+  stopRecording: "Stop Recording",
   confirmQuestion: "Confirm Question",
   endQuestion: "End Question Period",
   studentResponsesTitle: "Student Responses",

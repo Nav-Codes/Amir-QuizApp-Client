@@ -22,7 +22,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title id="pageTitle"></title>
+  <title id="pageTitle"> Teacher Session </title>
   <link rel="icon" type="image/icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="../css/style.css">
 </head>
@@ -33,12 +33,13 @@
 
     <div class="session-container box">
       <h2 id="sessionInfo"></h2>
-      <p><span id="sessionIdLabel"></span> <span id="sessionId">Loading...</span></p>
+      <p><span id="sessionIdLabel"></span> <span id="sessionId"></span></p>
       <p><span id="sessionLinkLabel"></span> <span id="sessionLink" href="#"></span></p>
     </div>
 
     <div class="question-area box">
       <h2 id="askQuestionTitle"></h2>
+      <div id="waveform"></div>
       <button id="startRecording" class="btn"></button>
       <p id="questionStatus"></p>
       <button id="confirmQuestion" class="btn"></button>
@@ -60,7 +61,6 @@
       <a href="#" class="btn red" id="logout"></a>
     </div>
   </div>
-
   <script type="module" src="../js/teacherSession.js"></script>
 </body>
 

@@ -74,6 +74,16 @@ class teacherSessionPage {
       document.getElementById("sessionLink").href = `studentSession.html?sessionId=${this.sessionId}`;
     }
     document.getElementById("sessionLink").innerText = teacherSession.sessionLinkGenerating;
+
+
+    this.audioContext = new (window.AudioContext || window.webkitAudioContext)(); // Create audio context
+    this.analyser = this.audioContext.createAnalyser(); // Create analyser node
+    this.analyser.fftSize = 8192; // Frequency data array size
+    this.bufferLength = this.analyser.frequencyBinCount; // Number of frequency bins
+    this.dataArray = new Uint8Array(this.bufferLength); // Array to store frequency data
+    this.canvas = document.getElementById("audioVisualizer"); // Canvas for drawing
+    this.canvas.width = window.innerWidth * 0.5; // Set width to window width
+    this.ctx = this.canvas.getContext("2d"); // 2d context for drawing
   }
 
   async createSession() {
@@ -97,6 +107,10 @@ class teacherSessionPage {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         this.mediaRecorder = new MediaRecorder(stream);
         this.audioChunks = [];
+
+        // Connect the audio stream to the analyser node
+        const source = this.audioContext.createMediaStreamSource(stream);
+        source.connect(this.analyser);
 
         this.mediaRecorder.ondataavailable = (event) => {
           if (event.data.size > 0) {
@@ -125,17 +139,63 @@ class teacherSessionPage {
 
         this.mediaRecorder.start();
         this.isRecording = true;
-        button.textContent = common.stopRecording;
+        button.textContent = teacherSession.stopRecording;
         document.getElementById("questionStatus").textContent = teacherSession.recording;
+        this.visualizeAudio();
+
       } catch (error) {
         console.error("Audio recording failed", error);
       }
     } else {
       this.mediaRecorder.stop();
       this.isRecording = false;
-      button.textContent = common.startRecording;
+      button.textContent = teacherSession.startRecording;
     }
   }
+
+  visualizeAudio() {
+    const draw = () => {
+      this.analyser.getByteFrequencyData(this.dataArray); // Get the frequency data
+  
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // Clear the canvas
+  
+      // Calculate the bin size for the human voice range (100 Hz to 3000 Hz)
+      const minFrequency = 100;  // Minimum frequency for human voice
+      const maxFrequency = 3000; // Maximum frequency for human voice
+  
+      // Ensure that the bins are subdivided more finely
+      const minBin = Math.floor((minFrequency / this.analyser.context.sampleRate) * this.bufferLength);
+      const maxBin = Math.floor((maxFrequency / this.analyser.context.sampleRate) * this.bufferLength);
+  
+      // Make sure the number of bins is increased
+      const barWidth = this.canvas.width / (maxBin - minBin); // Adjust the width for the reduced range
+      let x = 0;
+  
+      // Loop through the frequency bins for the human voice range
+      for (let i = minBin; i < maxBin; i++) {
+        const barHeight = this.dataArray[i];
+        const frequency = (i / this.bufferLength) * this.analyser.context.sampleRate;
+  
+        // Color bars based on frequency
+        const r = 150 * (i / this.bufferLength); // Red for lower frequencies
+        const g = 255 * (i / this.bufferLength); // Green for higher frequencies
+        const b = 50; // Blue stays constant
+  
+        // Set the color and draw the bar
+        this.ctx.fillStyle = `rgb(${r},${g},${b})`;
+        this.ctx.fillRect(x, this.canvas.height - barHeight, barWidth, barHeight);
+  
+        x += barWidth;
+      }
+  
+      // Call this function again to create a loop
+      if (this.isRecording) {
+        requestAnimationFrame(draw);
+      }
+    };
+  
+    draw(); // Start drawing the audio visualization
+  }  
 
   async confirmQuestion(event) {
     event.preventDefault();

@@ -108,6 +108,14 @@ img[alt="logo"] {
   background-color: #bd2130;
 }
 
+.green {
+  background-color: #28a745;
+}
+
+.green:hover {
+  background-color: #218838;
+}
+
 #welcome {
   font-size: 2rem;
   margin-bottom: 10px;
@@ -147,6 +155,20 @@ input {
 input:focus {
   border-color: #007bff;
   outline: none;
+}
+
+#audioContainer{
+  padding: 5px;
+  margin: 2px;
+  border:#333 2px solid;
+  border-radius: 5px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+#audioVisualizer {
+  width: 100%;
+  height: 100%;
+  display: block; /* Prevents extra spacing */
 }
 
 #error {

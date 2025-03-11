@@ -52,7 +52,9 @@ class utils {
     const page = new teacherSessionPage(processQuestionEndpoint, confirmQuestionEndpoint, endQuestionEndpoint, responseEndpoint);
     document.getElementById("startRecording").addEventListener("click", (e) => page.toggleRecording(e));
     document.getElementById("confirmQuestion").addEventListener("click", (e) => page.confirmQuestion(e));
+    document.getElementById("confirmQuestion").style.display = "none";
     document.getElementById("endQuestion").addEventListener("click", (e) => page.endQuestion(e));
+    document.getElementById("endQuestion").style.display = "none";
     // setInterval(() => page.fetchResponses(), 5000);
   }
 }
@@ -78,11 +80,11 @@ class teacherSessionPage {
 
     this.audioContext = new (window.AudioContext || window.webkitAudioContext)(); // Create audio context
     this.analyser = this.audioContext.createAnalyser(); // Create analyser node
-    this.analyser.fftSize = 8192; // Frequency data array size
+    this.analyser.fftSize = 2048; // Frequency data array size
     this.bufferLength = this.analyser.frequencyBinCount; // Number of frequency bins
     this.dataArray = new Uint8Array(this.bufferLength); // Array to store frequency data
     this.canvas = document.getElementById("audioVisualizer"); // Canvas for drawing
-    this.canvas.width = window.innerWidth * 0.5; // Set width to window width
+    this.canvas.width = window.innerWidth; // Set width to window width
     this.ctx = this.canvas.getContext("2d"); // 2d context for drawing
   }
 
@@ -132,6 +134,7 @@ class teacherSessionPage {
             const data = await response.json();
             document.getElementById("questionStatus").textContent = data.questionText;
             this.currentQuestion = data.questionText;
+            document.getElementById("confirmQuestion").style.display = "inline";
           } catch (error) {
             console.error("Failed to process question", error);
           }
@@ -140,6 +143,7 @@ class teacherSessionPage {
         this.mediaRecorder.start();
         this.isRecording = true;
         button.textContent = teacherSession.stopRecording;
+        button.classList.add("red");
         document.getElementById("questionStatus").textContent = teacherSession.recording;
         this.visualizeAudio();
 
@@ -150,6 +154,7 @@ class teacherSessionPage {
       this.mediaRecorder.stop();
       this.isRecording = false;
       button.textContent = teacherSession.startRecording;
+      button.classList.remove("red");
     }
   }
 
@@ -173,18 +178,15 @@ class teacherSessionPage {
   
       // Loop through the frequency bins for the human voice range
       for (let i = minBin; i < maxBin; i++) {
-        const barHeight = this.dataArray[i];
-        const frequency = (i / this.bufferLength) * this.analyser.context.sampleRate;
-  
-        // Color bars based on frequency
-        const r = 150 * (i / this.bufferLength); // Red for lower frequencies
-        const g = 255 * (i / this.bufferLength); // Green for higher frequencies
-        const b = 50; // Blue stays constant
-  
-        // Set the color and draw the bar
-        this.ctx.fillStyle = `rgb(${r},${g},${b})`;
+        let barHeight = (this.dataArray[i] / 255) * this.canvas.height * 0.9; 
+        // Scale height to 80% of canvas to prevent it from always maxing out
+      
+        const ratio = (i - minBin) / (maxBin - minBin);
+        const hue = 240 - ratio * 240; 
+      
+        this.ctx.fillStyle = `hsl(${hue}, 100%, 50%)`;
         this.ctx.fillRect(x, this.canvas.height - barHeight, barWidth, barHeight);
-  
+      
         x += barWidth;
       }
   
@@ -206,6 +208,8 @@ class teacherSessionPage {
         body: JSON.stringify({ sessionId: this.sessionId, }),
       });
       document.getElementById("questionStatus").textContent = teacherSession.questionConfirmed + this.currentQuestion;
+      document.getElementById("confirmQuestion").style.display = "none";
+      document.getElementById("endQuestion").style.display = "inline";
     } catch (error) {
       console.error("Failed to confirm question", error);
     }
@@ -220,6 +224,7 @@ class teacherSessionPage {
         body: JSON.stringify({ sessionId: this.sessionId }),
       });
       document.getElementById("questionStatus").textContent = teacherSession.questionEnded + teacherSession.waitingToStart;
+      document.getElementById("endQuestion").style.display = "none";
     } catch (error) {
       console.error("Failed to end question", error);
     }

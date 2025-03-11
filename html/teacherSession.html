@@ -39,10 +39,14 @@
 
     <div class="question-area box">
       <h2 id="askQuestionTitle"></h2>
-      <canvas id="audioVisualizer"></canvas>
-      <button id="startRecording" class="btn"></button>
+      <div id="audioContainer">
+        <canvas id="audioVisualizer"></canvas>
+      </div>
+      <div class="row">
+        <button id="startRecording" class="btn"></button>
+      </div>
       <p id="questionStatus"></p>
-      <button id="confirmQuestion" class="btn"></button>
+      <button id="confirmQuestion" class="btn green"></button>
       <button id="endQuestion" class="btn red"></button>
     </div>
 

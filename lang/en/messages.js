@@ -34,8 +34,30 @@ export const signup = {
 };
 
 export const teacherMain = {
-  welcome: "Welcome, Teacher!",
+  welcome: "Welcome to the Teacher Dashboard",
   dashboardDescription: "Here you can start a new session, view statistics, and check the logs."
+};
+
+export const teacherSession = {
+  teacherSessionTitle: "Teacher Session",
+  sessionInfo: "Session Information",
+  sessionIdLabel: "Session ID:",
+  sessionIdLoading: "Loading...",
+  sessionLinkLabel: "Share this link with students:",
+  askQuestionTitle: "Ask a Question",
+  startRecording: "Start Recording",
+  confirmQuestion: "Confirm Question",
+  endQuestion: "End Question Period",
+  studentResponsesTitle: "Student Responses",
+  noResponses: "No responses yet",
+  sessionIdLoading: "Loading...",
+  sessionLinkGenerating: "Generating...",
+  questionStatusWaiting: "Waiting for question...",
+  recording: "Recording...",
+  questionConfirmed: "Question confirmed: ",
+  questionEnded: "Question period ended. ",
+  waitingToStart: "Waiting to start...",
+  backToDashboard: "Back to Dashboard",
 };
 
 export const errorMessages = {

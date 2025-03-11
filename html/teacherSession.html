@@ -22,46 +22,42 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Teacher Session</title>
+  <title id="pageTitle"></title>
   <link rel="icon" type="image/icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="../css/style.css">
 </head>
 
 <body>
   <div class="container">
-    <h1>Teacher Session</h1>
+    <h1 id="teacherSessionTitle"></h1>
 
-    <!-- Session Info Section -->
     <div class="session-container box">
-      <h2>Session Information</h2>
-      <p>Session ID: <span id="sessionId">Loading...</span></p>
-      <p>Share this link with students: <a id="sessionLink" href="#">Generating...</a></p>
+      <h2 id="sessionInfo"></h2>
+      <p><span id="sessionIdLabel"></span> <span id="sessionId">Loading...</span></p>
+      <p><span id="sessionLinkLabel"></span> <span id="sessionLink" href="#"></span></p>
     </div>
 
-    <!-- Question Management Section -->
     <div class="question-area box">
-      <h2>Ask a Question</h2>
-      <button id="startRecording" class="btn">Start Recording</button>
-      <p id="questionStatus">Waiting to start...</p>
-      <button id="confirmQuestion" class="btn">Confirm Question</button>
-      <button id="endQuestion" class="btn red">End Question Period</button>
+      <h2 id="askQuestionTitle"></h2>
+      <button id="startRecording" class="btn"></button>
+      <p id="questionStatus"></p>
+      <button id="confirmQuestion" class="btn"></button>
+      <button id="endQuestion" class="btn red"></button>
     </div>
 
-    <!-- Student Responses Section -->
     <div id="studentResponses" class="box">
-      <h2>Student Responses</h2>
+      <h2 id="studentResponsesTitle"></h2>
       <ul id="responseList">
-        <li>No responses yet...</li>
+        <li id="noResponses"></li>
       </ul>
     </div>
 
     <div id="error"></div>
 
-    <!-- Navigation Buttons -->
     <div class="btn-container">
-      <a href="teacherMain.html" class="btn">Back to Dashboard</a>
-      <a href="home.html" class="btn">Home</a>
-      <a href="#" class="btn red" id="logout">Logout</a>
+      <a href="teacherMain.html" class="btn" id="backToDashboard"></a>
+      <a href="home.html" class="btn" id="home"></a>
+      <a href="#" class="btn red" id="logout"></a>
     </div>
   </div>
 

@@ -76,28 +76,8 @@ class teacherSessionPage {
       document.getElementById("sessionLink").href = `studentSession.html?sessionId=${this.sessionId}`;
     }
     document.getElementById("sessionLink").innerText = teacherSession.sessionLinkGenerating;
-
-
-    this.audioContext = new (window.AudioContext || window.webkitAudioContext)(); // Create audio context
-    this.analyser = this.audioContext.createAnalyser(); // Create analyser node
-    this.analyser.fftSize = 2048; // Frequency data array size
-    this.bufferLength = this.analyser.frequencyBinCount; // Number of frequency bins
-    this.dataArray = new Uint8Array(this.bufferLength); // Array to store frequency data
-    this.canvas = document.getElementById("audioVisualizer"); // Canvas for drawing
-    this.canvas.width = window.innerWidth; // Set width to window width
-    this.ctx = this.canvas.getContext("2d"); // 2d context for drawing
-  }
-
-  async createSession() {
-    try {
-      const response = await fetch("/api/createSession", { method: "POST" });
-      const data = await response.json();
-      const sessionId = data.sessionId;
-      window.history.replaceState(null, "", `?sessionId=${sessionId}`);
-      return sessionId;
-    } catch (error) {
-      console.error("Failed to create session", error);
-    }
+  
+    this.audioVisualizer = new AudioVisualizer("audioVisualizer");
   }
 
   async toggleRecording(event) {
@@ -107,12 +87,22 @@ class teacherSessionPage {
     if (!this.isRecording) {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+        if (!stream) {
+          console.error("Failed to get audio stream");
+          return;
+        }
+
         this.mediaRecorder = new MediaRecorder(stream);
         this.audioChunks = [];
 
-        // Connect the audio stream to the analyser node
-        const source = this.audioContext.createMediaStreamSource(stream);
-        source.connect(this.analyser);
+        this.mediaRecorder.start();
+        this.isRecording = true;
+        button.textContent = teacherSession.stopRecording;
+        button.classList.add("red");
+        document.getElementById("questionStatus").textContent = teacherSession.recording;
+
+        this.audioVisualizer.toggleRecording(stream);
 
         this.mediaRecorder.ondataavailable = (event) => {
           if (event.data.size > 0) {
@@ -140,13 +130,6 @@ class teacherSessionPage {
           }
         };
 
-        this.mediaRecorder.start();
-        this.isRecording = true;
-        button.textContent = teacherSession.stopRecording;
-        button.classList.add("red");
-        document.getElementById("questionStatus").textContent = teacherSession.recording;
-        this.visualizeAudio();
-
       } catch (error) {
         console.error("Audio recording failed", error);
       }
@@ -155,49 +138,10 @@ class teacherSessionPage {
       this.isRecording = false;
       button.textContent = teacherSession.startRecording;
       button.classList.remove("red");
+
+      this.audioVisualizer.stopVisualization();
     }
   }
-
-  visualizeAudio() {
-    const draw = () => {
-      this.analyser.getByteFrequencyData(this.dataArray); // Get the frequency data
-  
-      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // Clear the canvas
-  
-      // Calculate the bin size for the human voice range (100 Hz to 3000 Hz)
-      const minFrequency = 100;  // Minimum frequency for human voice
-      const maxFrequency = 3000; // Maximum frequency for human voice
-  
-      // Ensure that the bins are subdivided more finely
-      const minBin = Math.floor((minFrequency / this.analyser.context.sampleRate) * this.bufferLength);
-      const maxBin = Math.floor((maxFrequency / this.analyser.context.sampleRate) * this.bufferLength);
-  
-      // Make sure the number of bins is increased
-      const barWidth = this.canvas.width / (maxBin - minBin); // Adjust the width for the reduced range
-      let x = 0;
-  
-      // Loop through the frequency bins for the human voice range
-      for (let i = minBin; i < maxBin; i++) {
-        let barHeight = (this.dataArray[i] / 255) * this.canvas.height * 0.9; 
-        // Scale height to 80% of canvas to prevent it from always maxing out
-      
-        const ratio = (i - minBin) / (maxBin - minBin);
-        const hue = 240 - ratio * 240; 
-      
-        this.ctx.fillStyle = `hsl(${hue}, 100%, 50%)`;
-        this.ctx.fillRect(x, this.canvas.height - barHeight, barWidth, barHeight);
-      
-        x += barWidth;
-      }
-  
-      // Call this function again to create a loop
-      if (this.isRecording) {
-        requestAnimationFrame(draw);
-      }
-    };
-  
-    draw(); // Start drawing the audio visualization
-  }  
 
   async confirmQuestion(event) {
     event.preventDefault();
@@ -235,12 +179,80 @@ class teacherSessionPage {
       const response = await fetch(`${this.responseEndpoint}?sessionId=${this.sessionId}`);
       const data = await response.json();
       const responseList = document.getElementById("responseList");
+  
       responseList.innerHTML = data.responses.length
-        ? data.responses.map((resp) => `<li>${resp}</li>`).join("")
-        : `<li>${teacherSession.noResponses}</li>`;
+        ? data.responses.map((resp) => `<li>${resp}</li>`).join("") 
+        : `<li>${teacherSession.noResponses}</li>`; 
     } catch (error) {
       console.error("Failed to fetch responses", error);
     }
+  }
+}
+
+class AudioVisualizer {
+  constructor(canvasId) {
+    this.canvas = document.getElementById(canvasId);
+    this.canvas.width = window.innerWidth;
+    this.ctx = this.canvas.getContext("2d");
+    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    this.analyser = this.audioContext.createAnalyser();
+    this.analyser.fftSize = 2048;
+    this.bufferLength = this.analyser.frequencyBinCount;
+    this.dataArray = new Uint8Array(this.bufferLength);
+    this.isRecording = false;
+  }
+
+  startVisualization(stream) {
+    const source = this.audioContext.createMediaStreamSource(stream);
+    source.connect(this.analyser);
+    this.visualizeAudio();
+  }
+
+  visualizeAudio() {
+    const draw = () => {
+      this.analyser.getByteFrequencyData(this.dataArray);
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+      const minFrequency = 100;
+      const maxFrequency = 3000;
+      const minBin = Math.floor((minFrequency / this.audioContext.sampleRate) * this.bufferLength);
+      const maxBin = Math.floor((maxFrequency / this.audioContext.sampleRate) * this.bufferLength);
+
+      const barWidth = this.canvas.width / (maxBin - minBin);
+      let x = 0;
+
+      for (let i = minBin; i < maxBin; i++) {
+        let barHeight = (this.dataArray[i] / 255) * this.canvas.height * 0.9;
+        const ratio = (i - minBin) / (maxBin - minBin);
+        const hue = 240 - ratio * 240;
+
+        this.ctx.fillStyle = `hsl(${hue}, 100%, 50%)`;
+        this.ctx.fillRect(x, this.canvas.height - barHeight, barWidth, barHeight);
+        x += barWidth;
+      }
+
+      if (this.isRecording) {
+        requestAnimationFrame(draw);
+      }
+    };
+
+    draw();
+  }
+
+  toggleRecording(stream) {
+    if (this.isRecording) {
+      this.audioContext.suspend();
+      this.isRecording = false;
+    } else {
+      this.audioContext.resume();
+      this.isRecording = true;
+      this.startVisualization(stream);
+    }
+  }
+
+  stopVisualization() {
+    this.isRecording = false;
+    this.audioContext.suspend();
   }
 }
 

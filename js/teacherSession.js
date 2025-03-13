@@ -41,7 +41,6 @@ class utils {
     document.getElementById("endQuestion").innerText = teacherSession.endQuestion;
 
     document.getElementById("studentResponsesTitle").innerText = teacherSession.studentResponsesTitle;
-    document.getElementById("noResponses").innerText = teacherSession.noResponses;
 
     document.getElementById("backToDashboard").innerText = teacherSession.backToDashboard;
     document.getElementById("home").innerText = common.home;

@@ -186,3 +186,33 @@ input:focus {
 #error.show {
   display: block;
 }
+
+ul {
+  list-style-type: none; /* Removes the default bullet points */
+  padding: 0; /* Optional: Remove padding from the list */
+}
+
+li {
+  position: relative; /* Needed for the "tail" effect */
+  background-color: #cce7ff; /* Light background color */
+  padding: 15px 20px; /* Padding around the text */
+  border-radius: 15px; /* Rounded corners for the bubble */
+  margin: 10px 0; /* Space between the bubbles */
+  max-width: 80%; /* Optional: Control width of the bubble */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Slight shadow for depth */
+  margin-left: auto; /* Pushes the bubble to the right */
+  margin-right: 10px; /* Adds margin on the right for spacing */
+}
+
+li::after {
+  content: ''; /* Create the tail */
+  position: absolute;
+  top: 50%; /* Vertically align the tail in the middle */
+  right: -10px; /* Position the tail to the right of the bubble */
+  transform: translateY(-50%); /* Adjust vertical positioning */
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid #cce7ff; /* Same color as the bubble's background */
+}

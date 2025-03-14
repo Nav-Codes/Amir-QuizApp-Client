@@ -7,7 +7,7 @@ class utils {
     const token = localStorage.getItem("token");
     const role = localStorage.getItem("role");
     if (!token || !role || role !== "teacher") {
-      window.location.href = "home.html";
+      window.location.href = "index.html";
     }
     fetch(tokenEndpoint, {
       method: 'POST',
@@ -17,12 +17,12 @@ class utils {
       .then(response => response.json())
       .then(data => {
         if (!response.ok) {
-          window.location.href = "home.html";
+          window.location.href = "index.html";
         }
       })
       .catch((error) => {
         console.error('Error:', error);
-        window.location.href = "home.html";
+        window.location.href = "index.html";
       });
   }
 

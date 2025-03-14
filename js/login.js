@@ -74,4 +74,4 @@ class loginPage {
 }
 
 utils.setUserFacingString();
-utils.buildLoginPage("/login");
+utils.buildLoginPage("https://jellyfish-app-imzbx.ondigitalocean.app/login");

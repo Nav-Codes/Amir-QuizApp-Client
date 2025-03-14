@@ -113,7 +113,7 @@ class teacherSessionPage {
           const audioBlob = new Blob(this.audioChunks, { type: "audio/webm" });
           const formData = new FormData();
           formData.append("sessionId", this.sessionId);
-          formData.append("audio", audioBlob);
+          formData.append("file", audioBlob);
 
           try {
             const response = await fetch(this.processQuestionEndpoint, {
@@ -258,4 +258,4 @@ class AudioVisualizer {
 // Initialize
 // utils.checkAuth('/auth');
 utils.setTeacherSessionStrings();
-utils.buildTeacherSessionPage('/api/processQuestion', '/api/confirmQuestion', '/api/endQuestion', '/api/getResponses');
+utils.buildTeacherSessionPage('http://146.190.115.18:8000/transcribe/', '/api/confirmQuestion', '/api/endQuestion', '/api/getResponses');

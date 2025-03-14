@@ -22,6 +22,11 @@ export const login = {
   loginFailed: 'Login failed: '
 }
 
+export const logout = {
+  logoutMessage: 'You have been logged out successfully!',
+  loginAgain: 'Login Again'
+};
+
 export const signup = {
   welcome: "Create an Account",
   formName: "Full Name",

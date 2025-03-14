@@ -14,7 +14,7 @@ class utils {
   }
   static buildSignupPage(postEndpoint) {
     const page = new signupPage(postEndpoint);
-    signupPage.submissionLogic();
+    signupPage.submissionLogic(postEndpoint);
   }
 }
 
@@ -22,7 +22,7 @@ class signupPage {
   constructor(postEndpoint) {
     this.postEndpoint = postEndpoint;
   }
-  static submissionLogic() {
+  static submissionLogic(postEndpoint) {
     document.addEventListener("DOMContentLoaded", () => {
       const signupForm = document.getElementById("signupForm");
 
@@ -80,4 +80,4 @@ class signupPage {
 }
 
 utils.setUserFacingString();
-utils.buildSignupPage("/signup");
+utils.buildSignupPage("https://jellyfish-app-imzbx.ondigitalocean.app/signup");

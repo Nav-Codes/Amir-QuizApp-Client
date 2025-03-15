@@ -12,7 +12,7 @@ class utils {
   }
   static buildLoginPage(postEndpoint) {
     const page = new loginPage(postEndpoint);
-    loginPage.submissionLogic();
+    loginPage.submissionLogic(postEndpoint);
   }
 }
 
@@ -20,7 +20,7 @@ class loginPage {
   constructor(postEndpoint) {
     this.postEndpoint = postEndpoint;
   }
-  static submissionLogic() {
+  static submissionLogic(postEndpoint) {
     document.addEventListener("DOMContentLoaded", () => {
       const loginForm = document.getElementById("loginForm");
 
@@ -74,4 +74,4 @@ class loginPage {
 }
 
 utils.setUserFacingString();
-utils.buildLoginPage("https://jellyfish-app-imzbx.ondigitalocean.app/login");
+utils.buildLoginPage("https://king-prawn-app-7exk8.ondigitalocean.app/LoginStuff/login");

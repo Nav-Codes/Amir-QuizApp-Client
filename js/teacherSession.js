@@ -54,6 +54,7 @@ class utils {
     document.getElementById("confirmQuestion").style.display = "none";
     document.getElementById("endQuestion").addEventListener("click", (e) => page.endQuestion(e));
     document.getElementById("endQuestion").style.display = "none";
+    document.getElementById("logout").addEventListener("click", (e) => page.logout(e));
     // setInterval(() => page.fetchResponses(), 5000);
   }
 }
@@ -185,6 +186,31 @@ class teacherSessionPage {
     } catch (error) {
       console.error("Failed to fetch responses", error);
     }
+  }
+
+  logout(event) {
+    event.preventDefault();
+    token = localStorage.getItem("token");
+    fetch(this.logoutEndpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token })
+    })
+      .then(response => {})
+      .then(data => {
+        if (data.message == "ok") {
+          localStorage.removeItem("token");
+          localStorage.removeItem("role");
+          window.location.href = "index.html";
+        }
+        else {
+          this.printError(`${errorMessages.logoutFailed} ${data.message}`);
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        this.printError(`${errorMessages.logoutError} ${error.message}`);
+      });
   }
 }
 

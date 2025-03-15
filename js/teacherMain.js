@@ -110,16 +110,20 @@ class teacherMainPage {
 
   logout(event) {
     event.preventDefault();
+    const token = localStorage.getItem("token");
     fetch(this.logoutEndpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'logout' })
+      body: JSON.stringify({ token })
     })
-      .then(response => {
+      .then(response => { 
         if (response.ok) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("role");
           window.location.href = "index.html";
-        } else {
-          this.printError(`${errorMessages.logoutFailed} ${response.message}`);
+        }
+        else {
+          this.printError(`${errorMessages.logoutFailed} ${data.message}`);
         }
       })
       .catch((error) => {
@@ -141,4 +145,4 @@ class teacherMainPage {
 
 // utils.checkAuth('/auth');
 utils.setteacherMainStrings();
-utils.buildTeacherMainPage('/startSession', '/viewStats', '/viewLogs', '/logout');
+utils.buildTeacherMainPage('/startSession', '/viewStats', '/viewLogs', 'https://king-prawn-app-7exk8.ondigitalocean.app/LoginStuff/logout');

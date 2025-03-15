@@ -80,4 +80,4 @@ class signupPage {
 }
 
 utils.setUserFacingString();
-utils.buildSignupPage("https://jellyfish-app-imzbx.ondigitalocean.app/signup");
+utils.buildSignupPage("https://king-prawn-app-7exk8.ondigitalocean.app/LoginStuff/signup");

@@ -284,4 +284,4 @@ class AudioVisualizer {
 // Initialize
 // utils.checkAuth('/auth');
 utils.setTeacherSessionStrings();
-utils.buildTeacherSessionPage('http://146.190.115.18:8000/transcribe/', '/api/confirmQuestion', '/api/endQuestion', '/api/getResponses');
+utils.buildTeacherSessionPage('https://whale-app-aoaek.ondigitalocean.app/project/transcribe', '/api/confirmQuestion', '/api/endQuestion', '/api/getResponses');

@@ -66,6 +66,11 @@ export const teacherSession = {
   backToDashboard: "Back to Dashboard",
 };
 
+export const studentSession = {
+  waitingForQuestion: "Waiting for teacher's question...",
+  answerPlaceholder: "Enter answer..."
+}
+
 export const errorMessages = {
   startSessionFailed: "Failed to start the session:",
   startSessionError: "Error starting session:",

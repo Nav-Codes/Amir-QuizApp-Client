@@ -10,3 +10,25 @@
               -> teacher can start new question
                 -> repeat
       -->
+
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Student Session</title>
+    <link rel="icon" type="image/icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css">
+  </head>
+  <body>
+    <div id="sessionInput">
+      <label for="sessionID">Enter session ID</label>
+      <input type="text" name="sessionID" id="sessionIdInput" placeholder="Enter session ID">
+      <button onclick="SessionHandler.loadSession()" class="btn">Submit</button>
+    </div>
+
+    <div id="questionArea">
+      
+    </div>
+    <a href="#" class="btn red" id="logout">Logout</a>
+    <script src="./js/studentSession.js"></script>
+  </body>
+</html>

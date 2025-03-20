@@ -60,6 +60,7 @@ export const teacherSession = {
   sessionLinkGenerating: "Generating...",
   questionStatusWaiting: "Waiting for question...",
   recording: "Recording...",
+  processing: "Processing...",
   questionConfirmed: "Question confirmed: ",
   questionEnded: "Question period ended. ",
   waitingToStart: "Waiting to start...",

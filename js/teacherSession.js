@@ -55,6 +55,7 @@ class utils {
     document.getElementById("endQuestion").addEventListener("click", (e) => page.endQuestion(e));
     document.getElementById("endQuestion").style.display = "none";
     document.getElementById("logout").addEventListener("click", (e) => page.logout(e));
+    document.getElementById("loader").style.display = "none";
     // setInterval(() => page.fetchResponses(), 5000);
   }
 }
@@ -124,6 +125,7 @@ class teacherSessionPage {
             const data = await response.json();
             document.getElementById("questionStatus").textContent = data.questionText;
             this.currentQuestion = data.questionText;
+            document.getElementById("loader").style.display = "none";
             document.getElementById("confirmQuestion").style.display = "inline";
           } catch (error) {
             console.error("Failed to process question", error);
@@ -134,6 +136,8 @@ class teacherSessionPage {
         console.error("Audio recording failed", error);
       }
     } else {
+      document.getElementById("questionStatus").textContent = teacherSession.processing;
+      document.getElementById("loader").style.display = "block";
       this.mediaRecorder.stop();
       this.isRecording = false;
       button.textContent = teacherSession.startRecording;

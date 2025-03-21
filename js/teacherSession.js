@@ -239,34 +239,39 @@ class AudioVisualizer {
 
   visualizeAudio() {
     const draw = () => {
+      if (!this.isRecording) return;
+  
       this.analyser.getByteFrequencyData(this.dataArray);
-      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-      const minFrequency = 100;
-      const maxFrequency = 3000;
-      const minBin = Math.floor((minFrequency / this.audioContext.sampleRate) * this.bufferLength);
-      const maxBin = Math.floor((maxFrequency / this.audioContext.sampleRate) * this.bufferLength);
-
-      const barWidth = this.canvas.width / (maxBin - minBin);
-      let x = 0;
-
-      for (let i = minBin; i < maxBin; i++) {
-        let barHeight = (this.dataArray[i] / 255) * this.canvas.height * 0.9;
-        const ratio = (i - minBin) / (maxBin - minBin);
-        const hue = 240 - ratio * 240;
-
-        this.ctx.fillStyle = `hsl(${hue}, 100%, 50%)`;
-        this.ctx.fillRect(x, this.canvas.height - barHeight, barWidth, barHeight);
-        x += barWidth;
-      }
-
-      if (this.isRecording) {
-        requestAnimationFrame(draw);
-      }
+      this.drawBars();
+      
+      requestAnimationFrame(draw);
     };
-
+  
     draw();
   }
+
+  drawBars() {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  
+    const minFrequency = 100;
+    const maxFrequency = 3000;
+    const minBin = Math.floor((minFrequency / this.audioContext.sampleRate) * this.bufferLength);
+    const maxBin = Math.floor((maxFrequency / this.audioContext.sampleRate) * this.bufferLength);
+  
+    const barWidth = this.canvas.width / (maxBin - minBin);
+    let x = 0;
+  
+    for (let i = minBin; i < maxBin; i++) {
+      let barHeight = (this.dataArray[i] / 255) * this.canvas.height * 0.9;
+      const ratio = (i - minBin) / (maxBin - minBin);
+      const hue = 240 - ratio * 240;
+  
+      this.ctx.fillStyle = `hsl(${hue}, 100%, 50%)`;
+      this.ctx.fillRect(x, this.canvas.height - barHeight, barWidth, barHeight);
+      x += barWidth;
+    }
+  }
+  
 
   toggleRecording(stream) {
     if (this.isRecording) {
@@ -281,8 +286,28 @@ class AudioVisualizer {
 
   stopVisualization() {
     this.isRecording = false;
-    this.audioContext.suspend();
+  
+    const fadeOut = () => {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  
+      let hasNonZero = false;
+      for (let i = 0; i < this.dataArray.length; i++) {
+        if (this.dataArray[i] > 0) {
+          this.dataArray[i] *= 0.85; // Reduce amplitude gradually
+          hasNonZero = true;
+        }
+      }
+  
+      this.drawBars();
+  
+      if (hasNonZero) {
+        requestAnimationFrame(fadeOut);
+      }
+    };
+  
+    fadeOut();
   }
+  
 }
 
 // Initialize

@@ -42,7 +42,6 @@ img[alt="logo"] {
   align-items: center;
   gap: 30px;
   flex-wrap: wrap;
-  margin-top: 20px;
 }
 
 .column {
@@ -55,7 +54,7 @@ img[alt="logo"] {
   padding: 10px;
   margin: 10px;
   border-radius: 8px;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 8px 9px rgba(0, 0, 0, 0.3);
   text-align: center;
 }
 
@@ -70,7 +69,7 @@ img[alt="logo"] {
   background: white;
   padding: 40px;
   border-radius: 12px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 2px 8px 9px rgba(0, 0, 0, 0.3);
   text-align: center;
 }
 
@@ -79,7 +78,6 @@ img[alt="logo"] {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 20px;
 }
 
 .btn {
@@ -93,7 +91,9 @@ img[alt="logo"] {
   font-weight: bold;
   border-radius: 5px;
   margin-top: 20px;
+  margin-bottom: 20px;
   transition: background-color 0.3s ease;
+  box-shadow: 2px 8px 9px rgba(0, 0, 0, 0.3);
 }
 
 .btn:hover {
@@ -126,7 +126,7 @@ img[alt="logo"] {
   background: white;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 8px 9px rgba(0, 0, 0, 0.3);
   margin: 50px auto;
   text-align: center;
 }
@@ -163,14 +163,12 @@ input:focus {
   margin: 2px;
   border: #333 2px solid;
   border-radius: 5px;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 
 #audioVisualizer {
   width: 100%;
   height: 100%;
   display: block;
-  /* Prevents extra spacing */
 }
 
 #error {
@@ -191,49 +189,59 @@ input:focus {
 
 ul {
   list-style-type: none;
-  /* Removes the default bullet points */
   padding: 0;
-  /* Optional: Remove padding from the list */
 }
 
 li {
   position: relative;
-  /* Needed for the "tail" effect */
-  background-color: #cce7ff;
-  /* Light background color */
+  background-color: #e0ccff;
   padding: 15px 20px;
-  /* Padding around the text */
   border-radius: 15px;
-  /* Rounded corners for the bubble */
-  margin: 10px 0;
-  /* Space between the bubbles */
+  margin: 20px 0;
   max-width: 80%;
-  /* Optional: Control width of the bubble */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  /* Optional: Slight shadow for depth */
+  box-shadow: 2px 8px 9px rgba(0, 0, 0, 0.3);
   margin-left: auto;
-  /* Pushes the bubble to the right */
   margin-right: 10px;
-  /* Adds margin on the right for spacing */
 }
 
 li::after {
   content: '';
-  /* Create the tail */
   position: absolute;
   top: 50%;
-  /* Vertically align the tail in the middle */
   right: -10px;
-  /* Position the tail to the right of the bubble */
   transform: translateY(-50%);
-  /* Adjust vertical positioning */
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid #e0ccff;
+}
+
+#teacherBubble {
+  position: relative;
+  background-color: #cce7ff;
+  padding: 15px 20px;
+  border-radius: 15px;
+  margin: 20px 0;
+  max-width: 80%;
+  box-shadow: 2px 8px 9px rgba(0, 0, 0, 0.3);
+  margin-right: auto;
+  margin-left: 10px;
+}
+
+#teacherBubble::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -10px;
+  transform: translateY(-50%);
   width: 0;
   height: 0;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
   border-top: 10px solid #cce7ff;
-  /* Same color as the bubble's background */
 }
+
 
 #loaderContainer {
   display: flex;

@@ -73,6 +73,18 @@ img[alt="logo"] {
   text-align: center;
 }
 
+@media (max-width: 768px) {
+  .container {
+    padding: 20px; /* Smaller padding for tablets */
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 10px; /* Even smaller padding for mobile screens */
+  }
+}
+
 .btn-container {
   display: flex;
   flex-direction: column;
@@ -94,6 +106,18 @@ img[alt="logo"] {
   margin-bottom: 20px;
   transition: background-color 0.3s ease;
   box-shadow: 2px 8px 9px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+  .btn {
+    width: 80%; /* Smaller width for tablets */
+  }
+}
+
+@media (max-width: 480px) {
+  .btn {
+    width: 70%; /* Even smaller width for mobile screens */
+  }
 }
 
 .btn:hover {
@@ -119,6 +143,17 @@ img[alt="logo"] {
 #welcome {
   font-size: 2rem;
   margin-bottom: 10px;
+}
+@media (max-width: 768px) {
+  #welcome {
+    font-size: 2rem; /* Smaller font size for tablets */
+  }
+}
+
+@media (max-width: 480px) {
+  #welcome {
+    font-size: 1.5rem; /* Even smaller for mobile screens */
+  }
 }
 
 .form-container {

@@ -50,7 +50,7 @@ class signupPage {
 
           if (response.ok) {
             localStorage.setItem("token", data.token);
-            localStorage.setItem("user", JSON.stringify(data.user));
+            // localStorage.setItem("user", JSON.stringify(data.user));
             localStorage.setItem("role", data.user.role);
             if (data.user.role === "student") {
               window.location.href = "studentMain.html";

@@ -108,6 +108,6 @@ class teacherMainPage {
   }
 }
 
-utils.checkAuth('/checktoken');
+utils.checkAuth('https://dolphin-app-nxbr6.ondigitalocean.app/checktoken');
 utils.setteacherMainStrings();
 utils.buildTeacherMainPage('/startSession', '/viewStats', '/viewLogs', 'https://dolphin-app-nxbr6.ondigitalocean.app/logout');

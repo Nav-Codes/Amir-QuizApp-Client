@@ -74,4 +74,4 @@ class loginPage {
 }
 
 utils.setUserFacingString();
-utils.buildLoginPage("https://king-prawn-app-7exk8.ondigitalocean.app/LoginStuff/login");
+utils.buildLoginPage("https://dolphin-app-nxbr6.ondigitalocean.app/LoginStuff/login");

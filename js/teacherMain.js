@@ -145,4 +145,4 @@ class teacherMainPage {
 
 // utils.checkAuth('/auth');
 utils.setteacherMainStrings();
-utils.buildTeacherMainPage('/startSession', '/viewStats', '/viewLogs', 'https://king-prawn-app-7exk8.ondigitalocean.app/LoginStuff/logout');
+utils.buildTeacherMainPage('/startSession', '/viewStats', '/viewLogs', 'https://dolphin-app-nxbr6.ondigitalocean.app/LoginStuff/logout');

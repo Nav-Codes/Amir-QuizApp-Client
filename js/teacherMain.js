@@ -16,7 +16,7 @@ class utils {
     })
       .then(response => response.json())
       .then(data => {
-        if (!response.ok) {
+        if (!data.ok) { 
           console.error('Error:', data.message);
           // window.location.href = "index.html";
         }
@@ -32,7 +32,6 @@ class utils {
     document.getElementById("dashboardDescription").innerHTML = teacherMain.dashboardDescription;
     document.getElementById("startSession").innerHTML = common.startSession;
     document.getElementById("viewStats").innerHTML = common.viewStats;
-    document.getElementById("viewLogs").innerHTML = common.viewLogs;
     document.getElementById("home").innerHTML = common.home;
     document.getElementById("logout").innerHTML = common.logout;
   }

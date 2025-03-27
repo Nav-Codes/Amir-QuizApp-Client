@@ -6,7 +6,8 @@ class utils {
     const token = localStorage.getItem("token");
     const role = localStorage.getItem("role");
     if (!token || !role || role !== "teacher") {
-      window.location.href = "index.html";
+      console.log('No token or role found, redirecting to index.html');
+      // window.location.href = "index.html";
     }
     fetch(tokenEndpoint, {
       method: 'POST',
@@ -16,12 +17,13 @@ class utils {
       .then(response => response.json())
       .then(data => {
         if (!response.ok) {
-          window.location.href = "index.html";
+          console.error('Error:', data.message);
+          // window.location.href = "index.html";
         }
       })
       .catch((error) => {
         console.error('Error:', error);
-        window.location.href = "index.html";
+        // window.location.href = "index.html";
       });
   }
 

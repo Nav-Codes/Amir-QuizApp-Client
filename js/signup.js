@@ -80,4 +80,4 @@ class signupPage {
 }
 
 utils.setUserFacingString();
-utils.buildSignupPage("https://dolphin-app-nxbr6.ondigitalocean.app/LoginStuff/signup");
+utils.buildSignupPage("https://dolphin-app-nxbr6.ondigitalocean.app/signup");

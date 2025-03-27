@@ -38,8 +38,7 @@ class utils {
   static buildTeacherMainPage(sessionEndpoint, statsEndpoint, logsEndpoint, logoutEndpoint) {
     const page = new teacherMainPage(sessionEndpoint, statsEndpoint, logsEndpoint, logoutEndpoint);
     document.getElementById("startSession").addEventListener("click", (e) => page.startSession(e));
-    document.getElementById("viewStats").addEventListener("click", (e) => page.viewStats(e));
-    document.getElementById("viewLogs").addEventListener("click", (e) => page.viewLogs(e));
+    document.getElementById("viewStats").addEventListener("click", (e) => document.location.href = "teacherStats.html");
     document.getElementById("logout").addEventListener("click", (e) => page.logout(e));
   }
 }
@@ -71,40 +70,6 @@ class teacherMainPage {
       .catch((error) => {
         console.error('Error:', error);
         this.printError(`${errorMessages.startSessionError} ${error.message}`);
-      });
-  }
-
-  viewStats(event) {
-    event.preventDefault();
-    fetch(this.statsEndpoint)
-      .then(response => response.json())
-      .then(data => {
-        if (response.ok) {
-          // Handle displaying stats
-        } else {
-          this.printError(`${errorMessages.viewStatsFailed} ${data.message}`);
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-        this.printError(`${errorMessages.viewStatsError} ${error.message}`);
-      });
-  }
-
-  viewLogs(event) {
-    event.preventDefault();
-    fetch(this.logsEndpoint)
-      .then(response => response.json())
-      .then(data => {
-        if (response.ok) {
-          // Handle displaying logs
-        } else {
-          this.printError(`${errorMessages.viewLogsFailed} ${data.message}`);
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-        this.printError(`${errorMessages.viewLogsError} ${error.message}`);
       });
   }
 
@@ -143,6 +108,6 @@ class teacherMainPage {
   }
 }
 
-// utils.checkAuth('/auth');
+utils.checkAuth('/checktoken');
 utils.setteacherMainStrings();
-utils.buildTeacherMainPage('/startSession', '/viewStats', '/viewLogs', 'https://dolphin-app-nxbr6.ondigitalocean.app/LoginStuff/logout');
+utils.buildTeacherMainPage('/startSession', '/viewStats', '/viewLogs', 'https://dolphin-app-nxbr6.ondigitalocean.app/logout');

@@ -47,8 +47,8 @@ class utils {
     document.getElementById("logout").innerText = common.logout;
   }
 
-  static buildTeacherSessionPage(processQuestionEndpoint, confirmQuestionEndpoint, endQuestionEndpoint, endSessionEndPoint, responseEndpoint) {
-    const page = new teacherSessionPage(processQuestionEndpoint, confirmQuestionEndpoint, endQuestionEndpoint, endSessionEndPoint, responseEndpoint);
+  static buildTeacherSessionPage(processQuestionEndpoint, confirmQuestionEndpoint, endQuestionEndpoint, endSessionEndPoint, responseEndpoint, logoutEndpoint) {
+    const page = new teacherSessionPage(processQuestionEndpoint, confirmQuestionEndpoint, endQuestionEndpoint, endSessionEndPoint, responseEndpoint, logoutEndpoint);
     document.getElementById("startRecording").addEventListener("click", (e) => page.toggleRecording(e));
     document.getElementById("confirmQuestion").addEventListener("click", (e) => page.confirmQuestion(e));
     document.getElementById("confirmQuestion").style.display = "none";

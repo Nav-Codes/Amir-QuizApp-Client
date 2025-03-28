@@ -224,7 +224,8 @@ class teacherSessionPage {
         body: JSON.stringify({ sessionId: this.sessionId, token }),
       });
       if (response.ok) {
-      window.location.href = "teacherMain.html";
+        localStorage.removeItem("sessionId");
+        window.location.href = "teacherMain.html";
       } else {
         const errorData = await response.json();
         this.printError(errorMessages.endSessionFailed + errorData.message);

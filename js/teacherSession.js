@@ -77,7 +77,6 @@ class teacherSessionPage {
     if (!this.sessionId) {
       this.printError(errorMessages.noSessionIdFound);
     }
-    document.getElementById("sessionId").innerText = this.sessionId || teacherSession.sessionIdLoading;
     if (this.sessionId) {
       document.getElementById("sessionLink").innerHTML = `studentSession.html?sessionId=${this.sessionId}`;
       document.getElementById("sessionLink").href = `studentSession.html?sessionId=${this.sessionId}`;

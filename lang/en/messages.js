@@ -68,6 +68,7 @@ export const teacherSession = {
   confirmQuestionFailed: "Failed to confirm question: ",
   endQuestionFailed: "Failed to end question period: ",
   fetchResponsesFailed: "Failed to fetch responses: ",
+  score: "Score: ",
 };
 
 export const studentSession = {

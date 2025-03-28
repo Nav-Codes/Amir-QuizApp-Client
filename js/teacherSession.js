@@ -55,7 +55,7 @@ class utils {
     document.getElementById("endQuestion").style.display = "none";
     document.getElementById("endSession").addEventListener("click", (e) => page.endSession(e));
     document.getElementById("loader").style.display = "none";
-    // setInterval(() => page.getAnswers(), 1000);
+    setInterval(() => page.getAnswers(), 1000);
   }
 }
 
@@ -193,10 +193,9 @@ class teacherSessionPage {
       }
       const data = await response.json();
       const responseList = document.getElementById("responseList");
-
-      responseList.innerHTML = data.responses.length
-        ? data.responses.map((resp) => `<li>${resp}</li>`).join("")
-        : `<li>${teacherSession.noResponses}</li>`;
+      responseList.innerHTML = data.answers.length
+      ? data.answers.map((answer) => `<li>${answer.text} <br> ${teacherSession.score} ${answer.correctness}</li>`).join("")
+      : `<li>${teacherSession.noResponses}</li>`;
     } catch (error) {
       this.printError(teacherSession.fetchResponsesFailed + error.message);
     }

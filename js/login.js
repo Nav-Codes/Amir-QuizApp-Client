@@ -74,4 +74,4 @@ class loginPage {
 }
 
 utils.setUserFacingString();
-utils.buildLoginPage("https://dolphin-app-nxbr6.ondigitalocean.app/login");
+utils.buildLoginPage("https://dolphin-app-nxbr6.ondigitalocean.app/api/v1/login");

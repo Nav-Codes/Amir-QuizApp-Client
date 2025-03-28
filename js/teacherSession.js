@@ -314,10 +314,10 @@ class AudioVisualizer {
 
 }
 
-utils.checkAuth('https://dolphin-app-nxbr6.ondigitalocean.app/checktoken');
+utils.checkAuth('https://dolphin-app-nxbr6.ondigitalocean.app/api/v1/checktoken');
 utils.setTeacherSessionStrings();
 utils.buildTeacherSessionPage('https://whale-app-aoaek.ondigitalocean.app/project/transcribe', 
-  'https://dolphin-app-nxbr6.ondigitalocean.app/confirmquestion', 
-  'https://dolphin-app-nxbr6.ondigitalocean.app/endquestion', 
-  'https://dolphin-app-nxbr6.ondigitalocean.app/destroysession',
-  'https://dolphin-app-nxbr6.ondigitalocean.app/getanswers');
+  'https://dolphin-app-nxbr6.ondigitalocean.app/api/v1/confirmquestion', 
+  'https://dolphin-app-nxbr6.ondigitalocean.app/api/v1/endquestion', 
+  'https://dolphin-app-nxbr6.ondigitalocean.app/api/v1/destroysession',
+  'https://dolphin-app-nxbr6.ondigitalocean.app/api/v1/getanswers');

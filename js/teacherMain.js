@@ -131,6 +131,6 @@ class teacherMainPage {
   }
 }
 
-utils.checkAuth('https://dolphin-app-nxbr6.ondigitalocean.app/checktoken');
+utils.checkAuth('https://dolphin-app-nxbr6.ondigitalocean.app/api/v1/checktoken');
 utils.setteacherMainStrings();
-utils.buildTeacherMainPage('https://dolphin-app-nxbr6.ondigitalocean.app/createsession', '/viewStats', 'https://dolphin-app-nxbr6.ondigitalocean.app/logout');
+utils.buildTeacherMainPage('https://dolphin-app-nxbr6.ondigitalocean.app/api/v1/createsession', '/viewStats', 'https://dolphin-app-nxbr6.ondigitalocean.app/api/v1/logout');

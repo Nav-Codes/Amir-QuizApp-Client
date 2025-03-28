@@ -43,7 +43,6 @@ class utils {
     document.getElementById("endQuestion").innerText = teacherSession.endQuestion;
     document.getElementById("studentResponsesTitle").innerText = teacherSession.studentResponsesTitle;
     document.getElementById("backToDashboard").innerText = teacherSession.backToDashboard;
-    document.getElementById("home").innerText = common.home;
     document.getElementById("endSession").innerText = common.endSession;
     document.getElementById("logout").innerText = common.logout;
   }
@@ -63,12 +62,13 @@ class utils {
 }
 
 class teacherSessionPage {
-  constructor(processQuestionEndpoint, confirmQuestionEndpoint, endQuestionEndpoint, endSessionEndPoint, responseEndpoint) {
+  constructor(processQuestionEndpoint, confirmQuestionEndpoint, endQuestionEndpoint, endSessionEndPoint, responseEndpoint, logoutEndpoint) {
     this.processQuestionEndpoint = processQuestionEndpoint;
     this.confirmQuestionEndpoint = confirmQuestionEndpoint;
     this.endQuestionEndpoint = endQuestionEndpoint;
     this.endSessionEndpoint = endSessionEndPoint;
     this.responseEndpoint = responseEndpoint;
+    this.logoutEndpoint = logoutEndpoint;
     this.currentQuestion = null;
     this.isRecording = false;
     this.mediaRecorder = null;
@@ -343,4 +343,9 @@ class AudioVisualizer {
 
 utils.checkAuth('https://dolphin-app-nxbr6.ondigitalocean.app/checktoken');
 utils.setTeacherSessionStrings();
-utils.buildTeacherSessionPage('https://whale-app-aoaek.ondigitalocean.app/project/transcribe', 'https://dolphin-app-nxbr6.ondigitalocean.app/confirmquestion', 'https://dolphin-app-nxbr6.ondigitalocean.app/endquestion', 'https://dolphin-app-nxbr6.ondigitalocean.app/destroysession','https://dolphin-app-nxbr6.ondigitalocean.app/getanswers');
+utils.buildTeacherSessionPage('https://whale-app-aoaek.ondigitalocean.app/project/transcribe', 
+  'https://dolphin-app-nxbr6.ondigitalocean.app/confirmquestion', 
+  'https://dolphin-app-nxbr6.ondigitalocean.app/endquestion', 
+  'https://dolphin-app-nxbr6.ondigitalocean.app/destroysession',
+  'https://dolphin-app-nxbr6.ondigitalocean.app/getanswers',
+  'https://dolphin-app-nxbr6.ondigitalocean.app/logout');

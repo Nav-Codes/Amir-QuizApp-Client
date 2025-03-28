@@ -34,7 +34,6 @@ class utils {
     document.getElementById("startSession").innerHTML = common.startSession;
     document.getElementById("continueSession").innerHTML = common.continueSession;
     document.getElementById("viewStats").innerHTML = common.viewStats;
-    document.getElementById("home").innerHTML = common.home;
     document.getElementById("logout").innerHTML = common.logout;
   }
 
@@ -83,7 +82,7 @@ class teacherMainPage {
     event.preventDefault();
     const sessionId = localStorage.getItem("sessionId");
     if (sessionId) {
-      window.location.href = "teacherSession.html?" + sessionId;
+      window.location.href = `teacherSession.html?sessionId=${data.sessionId}`;
     } else {
       this.printError(errorMessages.noSessionFound);
     }

@@ -71,10 +71,11 @@ class utils {
 }
 
 class teacherSessionPage {
-  constructor(processQuestionEndpoint, confirmQuestionEndpoint, endQuestionEndpoint, responseEndpoint) {
+  constructor(processQuestionEndpoint, confirmQuestionEndpoint, endQuestionEndpoint, endSessionEndPoint, responseEndpoint) {
     this.processQuestionEndpoint = processQuestionEndpoint;
     this.confirmQuestionEndpoint = confirmQuestionEndpoint;
     this.endQuestionEndpoint = endQuestionEndpoint;
+    this.endSessionEndpoint = endSessionEndPoint;
     this.responseEndpoint = responseEndpoint;
     this.currentQuestion = null;
     this.isRecording = false;
@@ -94,27 +95,21 @@ class teacherSessionPage {
   async toggleRecording(event) {
     event.preventDefault();
     const button = document.getElementById("startRecording");
-
     if (!this.isRecording) {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-
         if (!stream) {
           console.error("Failed to get audio stream");
           return;
         }
-
         this.mediaRecorder = new MediaRecorder(stream);
         this.audioChunks = [];
-
         this.mediaRecorder.start();
         this.isRecording = true;
         button.textContent = teacherSession.stopRecording;
         button.classList.add("red");
         document.getElementById("questionStatus").textContent = teacherSession.recording;
-
         this.audioVisualizer.toggleRecording(stream);
-
         this.mediaRecorder.ondataavailable = (event) => {
           if (event.data.size > 0) {
             this.audioChunks.push(event.data);
@@ -126,7 +121,6 @@ class teacherSessionPage {
           const formData = new FormData();
           formData.append("sessionId", this.sessionId);
           formData.append("file", audioBlob);
-
           try {
             const response = await fetch(this.processQuestionEndpoint, {
               method: "POST",
@@ -141,7 +135,6 @@ class teacherSessionPage {
             console.error("Failed to process question", error);
           }
         };
-
       } catch (error) {
         console.error("Audio recording failed", error);
       }
@@ -152,7 +145,6 @@ class teacherSessionPage {
       this.isRecording = false;
       button.textContent = teacherSession.startRecording;
       button.classList.remove("red");
-
       this.audioVisualizer.stopVisualization();
     }
   }

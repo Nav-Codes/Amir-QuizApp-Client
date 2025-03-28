@@ -56,6 +56,7 @@ class teacherMainPage {
 
   startSession(event) {
     event.preventDefault();
+    const token = localStorage.getItem("token");
     fetch(this.sessionEndpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

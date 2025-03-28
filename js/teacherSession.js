@@ -78,8 +78,7 @@ class teacherSessionPage {
       this.printError(errorMessages.noSessionIdFound);
     }
     if (this.sessionId) {
-      document.getElementById("sessionLink").innerHTML = `studentSession.html?sessionId=${this.sessionId}`;
-      document.getElementById("sessionLink").href = `studentSession.html?sessionId=${this.sessionId}`;
+      document.getElementById("sessionLink").innerHTML = `${window.location.origin}/studentSession.html?sessionId=${this.sessionId}`;
     }
     this.audioVisualizer = new AudioVisualizer("audioVisualizer");
   }
@@ -229,7 +228,7 @@ class teacherSessionPage {
 
   logout(event) {
     event.preventDefault();
-    token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
     fetch(this.logoutEndpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

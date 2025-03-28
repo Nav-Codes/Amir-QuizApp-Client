@@ -48,9 +48,9 @@ export const teacherMain = {
 export const teacherSession = {
   teacherSessionTitle: "Teacher Session",
   sessionInfo: "Session Information",
-  sessionCodeLabel: "Join Session Using This Code:",
+  sessionCodeLabel: "Session Code: ",
   sessionCodeLoading: "Loading...",
-  sessionLinkLabel: "Share this link with students:",
+  sessionLinkLabel: "Student Link: ",
   askQuestionTitle: "Ask a Question",
   startRecording: "Start Recording",
   stopRecording: "Stop Recording",

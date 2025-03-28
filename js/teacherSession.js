@@ -16,17 +16,17 @@ class utils {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ token, role })
     })
-    .then(response => {
-      if (!response.ok) {
-        console.error('Error: Response not OK');
+      .then(response => {
+        if (!response.ok) {
+          console.error('Error: Response not OK');
+          window.location.href = "index.html";
+          return;
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
         window.location.href = "index.html";
-        return; 
-      }
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-      window.location.href = "index.html";
-    });
+      });
   }
 
   static setTeacherSessionStrings() {
@@ -48,19 +48,22 @@ class utils {
 
     document.getElementById("backToDashboard").innerText = teacherSession.backToDashboard;
     document.getElementById("home").innerText = common.home;
+    document.getElementById("endSession").innerText = common.endSession;
     document.getElementById("logout").innerText = common.logout;
   }
 
-  static buildTeacherSessionPage(processQuestionEndpoint, confirmQuestionEndpoint, endQuestionEndpoint, responseEndpoint) {
+  static buildTeacherSessionPage(processQuestionEndpoint, confirmQuestionEndpoint, endQuestionEndpoint, endSessionEndPoint, responseEndpoint) {
+    const sessionId = new URLSearchParams(window.location.search).get("sessionId");
     if (!this.sessionId) {
       this.printError(errorMessages.noSessionIdFound);
     }
-    const page = new teacherSessionPage(processQuestionEndpoint, confirmQuestionEndpoint, endQuestionEndpoint, responseEndpoint);
+    const page = new teacherSessionPage(processQuestionEndpoint, confirmQuestionEndpoint, endQuestionEndpoint, endSessionEndPoint, responseEndpoint);
     document.getElementById("startRecording").addEventListener("click", (e) => page.toggleRecording(e));
     document.getElementById("confirmQuestion").addEventListener("click", (e) => page.confirmQuestion(e));
     document.getElementById("confirmQuestion").style.display = "none";
     document.getElementById("endQuestion").addEventListener("click", (e) => page.endQuestion(e));
     document.getElementById("endQuestion").style.display = "none";
+    document.getElementById("endSession").addEventListener("click", (e) => page.endSession(e));
     document.getElementById("logout").addEventListener("click", (e) => page.logout(e));
     document.getElementById("loader").style.display = "none";
     // setInterval(() => page.fetchResponses(), 5000);
@@ -84,7 +87,7 @@ class teacherSessionPage {
       document.getElementById("sessionLink").href = `studentSession.html?sessionId=${this.sessionId}`;
     }
     document.getElementById("sessionLink").innerText = teacherSession.sessionLinkGenerating;
-  
+
     this.audioVisualizer = new AudioVisualizer("audioVisualizer");
   }
 
@@ -158,14 +161,19 @@ class teacherSessionPage {
     event.preventDefault();
     const token = localStorage.getItem("token");
     try {
-      await fetch(this.confirmQuestionEndpoint, {
+      const response = await fetch(this.confirmQuestionEndpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ sessionId: this.sessionId, question: this.currentQuestion, token }),
       });
-      document.getElementById("questionStatus").textContent = teacherSession.questionConfirmed + this.currentQuestion;
-      document.getElementById("confirmQuestion").style.display = "none";
-      document.getElementById("endQuestion").style.display = "inline";
+      if (response.ok) {
+        document.getElementById("questionStatus").textContent = teacherSession.questionConfirmed + this.currentQuestion;
+        document.getElementById("confirmQuestion").style.display = "none";
+        document.getElementById("endQuestion").style.display = "inline";
+      } else {
+        const errorData = await response.json();
+        this.printError(teacherSession.confirmQuestionFailed + errorData.message);
+      }
     } catch (error) {
       this.printError(teacherSession.confirmQuestionFailed + error.message);
     }
@@ -174,13 +182,18 @@ class teacherSessionPage {
   async endQuestion(event) {
     event.preventDefault();
     try {
-      await fetch(this.endQuestionEndpoint, {
+      const response = await fetch(this.endQuestionEndpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ sessionId: this.sessionId }),
       });
-      document.getElementById("questionStatus").textContent = teacherSession.questionEnded + teacherSession.waitingToStart;
-      document.getElementById("endQuestion").style.display = "none";
+      if (response.ok) {
+        document.getElementById("questionStatus").textContent = teacherSession.questionEnded + teacherSession.waitingToStart;
+        document.getElementById("endQuestion").style.display = "none";
+      } else {
+        const errorData = await response.json();
+        this.printError(teacherSession.endQuestionFailed + errorData.message);
+      }
     } catch (error) {
       this.printError(teacherSession.endQuestionFailed + error.message);
     }
@@ -188,15 +201,44 @@ class teacherSessionPage {
 
   async fetchResponses() {
     try {
-      const response = await fetch(`${this.responseEndpoint}?sessionId=${this.sessionId}`);
+      const response = await fetch(this.responseEndpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sessionId: this.sessionId }),
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        this.printError(teacherSession.fetchResponsesFailed + errorData.message);
+        return;
+      }
       const data = await response.json();
       const responseList = document.getElementById("responseList");
-  
+
       responseList.innerHTML = data.responses.length
-        ? data.responses.map((resp) => `<li>${resp}</li>`).join("") 
-        : `<li>${teacherSession.noResponses}</li>`; 
+        ? data.responses.map((resp) => `<li>${resp}</li>`).join("")
+        : `<li>${teacherSession.noResponses}</li>`;
     } catch (error) {
       this.printError(teacherSession.fetchResponsesFailed + error.message);
+    }
+  }
+
+  async endSession(event) {
+    event.preventDefault();
+    const token = localStorage.getItem("token");
+    try {
+      const response = await fetch(this.endSessionEndpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sessionId: this.sessionId, token }),
+      });
+      if (response.ok) {
+      window.location.href = "teacherMain.html";
+      } else {
+        const errorData = await response.json();
+        this.printError(errorMessages.endSessionFailed + errorData.message);
+      }
+    } catch (error) {
+      this.printError(errorMessages.endSessionFailed + error.message);
     }
   }
 
@@ -208,7 +250,7 @@ class teacherSessionPage {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ token })
     })
-      .then(response => {})
+      .then(response => { })
       .then(data => {
         if (data.message == "ok") {
           localStorage.removeItem("token");
@@ -257,13 +299,13 @@ class AudioVisualizer {
   visualizeAudio() {
     const draw = () => {
       if (!this.isRecording) return;
-  
+
       this.analyser.getByteFrequencyData(this.dataArray);
       this.drawBars();
-      
+
       requestAnimationFrame(draw);
     };
-  
+
     draw();
   }
 
@@ -273,21 +315,21 @@ class AudioVisualizer {
     const maxFrequency = 3000;
     const minBin = Math.floor((minFrequency / this.audioContext.sampleRate) * this.bufferLength);
     const maxBin = Math.floor((maxFrequency / this.audioContext.sampleRate) * this.bufferLength);
-  
+
     const barWidth = this.canvas.width / (maxBin - minBin);
     let x = 0;
-  
+
     for (let i = minBin; i < maxBin; i++) {
       let barHeight = (this.dataArray[i] / 255) * this.canvas.height * 0.9;
       const ratio = (i - minBin) / (maxBin - minBin);
       const hue = 240 - ratio * 240;
-  
+
       this.ctx.fillStyle = `hsl(${hue}, 100%, 50%)`;
       this.ctx.fillRect(x, this.canvas.height - barHeight, barWidth, barHeight);
       x += barWidth;
     }
   }
-  
+
 
   toggleRecording(stream) {
     if (this.isRecording) {
@@ -302,10 +344,10 @@ class AudioVisualizer {
 
   stopVisualization() {
     this.isRecording = false;
-  
+
     const fadeOut = () => {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-  
+
       let hasNonZero = false;
       for (let i = 0; i < this.dataArray.length; i++) {
         if (this.dataArray[i] > 0) {
@@ -313,19 +355,19 @@ class AudioVisualizer {
           hasNonZero = true;
         }
       }
-  
+
       this.drawBars();
-  
+
       if (hasNonZero) {
         requestAnimationFrame(fadeOut);
       }
     };
-  
+
     fadeOut();
   }
-  
+
 }
 
 utils.checkAuth('https://dolphin-app-nxbr6.ondigitalocean.app/checktoken');
 utils.setTeacherSessionStrings();
-utils.buildTeacherSessionPage('https://whale-app-aoaek.ondigitalocean.app/project/transcribe', '/api/confirmQuestion', '/api/endQuestion', '/api/getResponses');
+utils.buildTeacherSessionPage('https://whale-app-aoaek.ondigitalocean.app/project/transcribe', 'https://dolphin-app-nxbr6.ondigitalocean.app/confirmquestion', 'https://dolphin-app-nxbr6.ondigitalocean.app/endquestion', 'https://dolphin-app-nxbr6.ondigitalocean.app/destroysession','https://dolphin-app-nxbr6.ondigitalocean.app/getanswers');

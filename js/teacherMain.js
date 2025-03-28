@@ -38,8 +38,8 @@ class utils {
     document.getElementById("logout").innerHTML = common.logout;
   }
 
-  static buildTeacherMainPage(sessionEndpoint, statsEndpoint, logsEndpoint, logoutEndpoint) {
-    const page = new teacherMainPage(sessionEndpoint, statsEndpoint, logsEndpoint, logoutEndpoint);
+  static buildTeacherMainPage(sessionEndpoint, statsEndpoint, logoutEndpoint) {
+    const page = new teacherMainPage(sessionEndpoint, statsEndpoint, logoutEndpoint);
     document.getElementById("startSession").addEventListener("click", (e) => page.startSession(e));
     document.getElementById("continueSession").addEventListener("click", (e) => page.continueSession(e));
     document.getElementById("viewStats").addEventListener("click", (e) => document.location.href = "teacherStats.html");
@@ -48,10 +48,9 @@ class utils {
 }
 
 class teacherMainPage {
-  constructor(sessionEndpoint, statsEndpoint, logsEndpoint, logoutEndpoint) {
+  constructor(sessionEndpoint, statsEndpoint, logoutEndpoint) {
     this.sessionEndpoint = sessionEndpoint;
     this.statsEndpoint = statsEndpoint;
-    this.logsEndpoint = logsEndpoint;
     this.logoutEndpoint = logoutEndpoint;
   }
 
@@ -124,4 +123,4 @@ class teacherMainPage {
 
 utils.checkAuth('https://dolphin-app-nxbr6.ondigitalocean.app/checktoken');
 utils.setteacherMainStrings();
-utils.buildTeacherMainPage('/startSession', '/viewStats', '/viewLogs', 'https://dolphin-app-nxbr6.ondigitalocean.app/logout');
+utils.buildTeacherMainPage('https://dolphin-app-nxbr6.ondigitalocean.app/createsession', '/viewStats', 'https://dolphin-app-nxbr6.ondigitalocean.app/logout');

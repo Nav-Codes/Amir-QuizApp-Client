@@ -7,6 +7,7 @@ export const common = {
   viewStats: "View Statistics",
   viewLogs: "View Logs",
   continueSession: "Continue Session",
+  endSession: "End Session",
 };
 
 export const home = {

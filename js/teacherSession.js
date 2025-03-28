@@ -44,31 +44,28 @@ class utils {
     document.getElementById("studentResponsesTitle").innerText = teacherSession.studentResponsesTitle;
     document.getElementById("backToDashboard").innerText = teacherSession.backToDashboard;
     document.getElementById("endSession").innerText = common.endSession;
-    document.getElementById("logout").innerText = common.logout;
   }
 
-  static buildTeacherSessionPage(processQuestionEndpoint, confirmQuestionEndpoint, endQuestionEndpoint, endSessionEndPoint, responseEndpoint, logoutEndpoint) {
-    const page = new teacherSessionPage(processQuestionEndpoint, confirmQuestionEndpoint, endQuestionEndpoint, endSessionEndPoint, responseEndpoint, logoutEndpoint);
+  static buildTeacherSessionPage(processQuestionEndpoint, confirmQuestionEndpoint, endQuestionEndpoint, endSessionEndPoint, responseEndpoint) {
+    const page = new teacherSessionPage(processQuestionEndpoint, confirmQuestionEndpoint, endQuestionEndpoint, endSessionEndPoint, responseEndpoint);
     document.getElementById("startRecording").addEventListener("click", (e) => page.toggleRecording(e));
     document.getElementById("confirmQuestion").addEventListener("click", (e) => page.confirmQuestion(e));
     document.getElementById("confirmQuestion").style.display = "none";
     document.getElementById("endQuestion").addEventListener("click", (e) => page.endQuestion(e));
     document.getElementById("endQuestion").style.display = "none";
     document.getElementById("endSession").addEventListener("click", (e) => page.endSession(e));
-    document.getElementById("logout").addEventListener("click", (e) => page.logout(e));
     document.getElementById("loader").style.display = "none";
     // setInterval(() => page.getAnswers(), 1000);
   }
 }
 
 class teacherSessionPage {
-  constructor(processQuestionEndpoint, confirmQuestionEndpoint, endQuestionEndpoint, endSessionEndPoint, responseEndpoint, logoutEndpoint) {
+  constructor(processQuestionEndpoint, confirmQuestionEndpoint, endQuestionEndpoint, endSessionEndPoint, responseEndpoint) {
     this.processQuestionEndpoint = processQuestionEndpoint;
     this.confirmQuestionEndpoint = confirmQuestionEndpoint;
     this.endQuestionEndpoint = endQuestionEndpoint;
     this.endSessionEndpoint = endSessionEndPoint;
     this.responseEndpoint = responseEndpoint;
-    this.logoutEndpoint = logoutEndpoint;
     this.currentQuestion = null;
     this.isRecording = false;
     this.mediaRecorder = null;
@@ -227,38 +224,6 @@ class teacherSessionPage {
     }
   }
 
-  logout(event) {
-    event.preventDefault();
-    const token = localStorage.getItem("token");
-  
-    fetch(this.logoutEndpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token })
-    })
-      .then(response => {
-        if (!response.ok) {
-          return response.json().then(data => {
-            throw new Error(`${errorMessages.logoutFailed} ${response.status} ${data.message || 'Unknown error'}`);
-          });
-        }
-        return response.json();
-      })
-      .then(() => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("role");
-        window.location.href = "index.html";
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        const errorMessage = error.message.includes("Status:")
-          ? error.message
-          : `${errorMessages.logoutError} Network error or no response.`;
-        this.printError(errorMessage);
-      });
-  }
-  
-
   printError(message) {
     const errorDiv = document.getElementById("error");
     if (message) {
@@ -356,5 +321,4 @@ utils.buildTeacherSessionPage('https://whale-app-aoaek.ondigitalocean.app/projec
   'https://dolphin-app-nxbr6.ondigitalocean.app/confirmquestion', 
   'https://dolphin-app-nxbr6.ondigitalocean.app/endquestion', 
   'https://dolphin-app-nxbr6.ondigitalocean.app/destroysession',
-  'https://dolphin-app-nxbr6.ondigitalocean.app/getanswers',
-  'https://dolphin-app-nxbr6.ondigitalocean.app/logout');
+  'https://dolphin-app-nxbr6.ondigitalocean.app/getanswers');

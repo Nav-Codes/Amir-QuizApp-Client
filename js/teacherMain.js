@@ -91,26 +91,34 @@ class teacherMainPage {
   logout(event) {
     event.preventDefault();
     const token = localStorage.getItem("token");
+  
     fetch(this.logoutEndpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ token })
     })
-      .then(response => { 
-        if (response.ok) {
-          localStorage.removeItem("token");
-          localStorage.removeItem("role");
-          window.location.href = "index.html";
+      .then(response => {
+        if (!response.ok) {
+          return response.json().then(data => {
+            throw new Error(`${errorMessages.logoutFailed} ${response.status} ${data.message || 'Unknown error'}`);
+          });
         }
-        else {
-          this.printError(`${errorMessages.logoutFailed} ${data.status} ${data.message}`);
-        }
+        return response.json();
       })
-      .catch((error) => {
+      .then(() => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("role");
+        window.location.href = "index.html";
+      })
+      .catch(error => {
         console.error('Error:', error);
-        this.printError(`${errorMessages.logoutError} ${error.message}`);
+        const errorMessage = error.message.includes("Status:")
+          ? error.message
+          : `${errorMessages.logoutError} Network error or no response.`;
+        this.printError(errorMessage);
       });
   }
+  
 
   printError(message) {
     const errorDiv = document.getElementById("error");

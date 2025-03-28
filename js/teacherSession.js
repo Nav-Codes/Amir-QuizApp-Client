@@ -216,6 +216,7 @@ class teacherSessionPage {
       });
       if (response.ok) {
         localStorage.removeItem("sessionId");
+        localStorage.removeItem("sessionCode");
         window.location.href = "teacherMain.html";
       } else {
         const errorData = await response.json();
@@ -229,26 +230,34 @@ class teacherSessionPage {
   logout(event) {
     event.preventDefault();
     const token = localStorage.getItem("token");
+  
     fetch(this.logoutEndpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ token })
     })
-      .then(response => { })
-      .then(data => {
-        if (data.message == "ok") {
-          localStorage.removeItem("token");
-          localStorage.removeItem("role");
-          window.location.href = "index.html";
+      .then(response => {
+        if (!response.ok) {
+          return response.json().then(data => {
+            throw new Error(`${errorMessages.logoutFailed} ${response.status} ${data.message || 'Unknown error'}`);
+          });
         }
-        else {
-          this.printError(`${errorMessages.logoutFailed} ${data.message}`);
-        }
+        return response.json();
       })
-      .catch((error) => {
-        this.printError(`${errorMessages.logoutError} ${error.message}`);
+      .then(() => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("role");
+        window.location.href = "index.html";
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        const errorMessage = error.message.includes("Status:")
+          ? error.message
+          : `${errorMessages.logoutError} Network error or no response.`;
+        this.printError(errorMessage);
       });
   }
+  
 
   printError(message) {
     const errorDiv = document.getElementById("error");

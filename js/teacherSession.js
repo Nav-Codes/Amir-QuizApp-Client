@@ -34,8 +34,8 @@ class utils {
 
     document.getElementById("sessionInfo").innerText = teacherSession.sessionInfo;
     document.getElementById("sessionIdLabel").innerText = teacherSession.sessionIdLabel;
-    const sessionId = new URLSearchParams(window.location.search).get("sessionId");
-    document.getElementById("sessionId").innerText = sessionId || teacherSession.sessionIdLoading;
+    const sessionCode = localStorage.getItem("sessionCode");
+    document.getElementById("sessionId").innerText = sessionCode || teacherSession.sessionIdLoading;
     document.getElementById("sessionLinkLabel").innerText = teacherSession.sessionLinkLabel;
 
     document.getElementById("askQuestionTitle").innerText = teacherSession.askQuestionTitle;

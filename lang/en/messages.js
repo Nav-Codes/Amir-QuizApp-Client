@@ -48,7 +48,7 @@ export const teacherMain = {
 export const teacherSession = {
   teacherSessionTitle: "Teacher Session",
   sessionInfo: "Session Information",
-  sessionIdLabel: "Join Session Using This Code:",
+  sessionCodeLabel: "Join Session Using This Code:",
   sessionIdLoading: "Loading...",
   sessionLinkLabel: "Share this link with students:",
   askQuestionTitle: "Ask a Question",
@@ -58,7 +58,6 @@ export const teacherSession = {
   endQuestion: "End Question Period",
   studentResponsesTitle: "Student Responses",
   noResponses: "No responses yet",
-  sessionIdLoading: "Loading...",
   sessionLinkGenerating: "Generating...",
   questionStatusWaiting: "Waiting for question...",
   recording: "Recording...",

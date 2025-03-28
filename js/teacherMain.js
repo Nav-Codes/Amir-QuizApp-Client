@@ -69,12 +69,8 @@ class teacherMainPage {
         return response.json();
       })
       .then(data => {
-        if (data.ok) {
-          localStorage.setItem("sessionId", data.sessionId);
-          window.location.href = `teacherSession.html?${data.sessionId}`;
-        } else {
-          this.printError(`${errorMessages.startSessionFailed} ${data.message}`);
-        }
+        localStorage.setItem("sessionId", data.sessionId);
+        window.location.href = `teacherSession.html?${data.sessionId}`;
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -107,7 +103,7 @@ class teacherMainPage {
           window.location.href = "index.html";
         }
         else {
-          this.printError(`${errorMessages.logoutFailed} ${data.message}`);
+          this.printError(`${errorMessages.logoutFailed} ${data.status} ${data.message}`);
         }
       })
       .catch((error) => {

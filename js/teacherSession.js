@@ -66,7 +66,7 @@ class utils {
     document.getElementById("endSession").addEventListener("click", (e) => page.endSession(e));
     document.getElementById("logout").addEventListener("click", (e) => page.logout(e));
     document.getElementById("loader").style.display = "none";
-    // setInterval(() => page.fetchResponses(), 5000);
+    // setInterval(() => page.getAnswers(), 1000);
   }
 }
 
@@ -191,7 +191,7 @@ class teacherSessionPage {
     }
   }
 
-  async fetchResponses() {
+  async getAnswers() {
     try {
       const response = await fetch(this.responseEndpoint, {
         method: "POST",
@@ -292,13 +292,10 @@ class AudioVisualizer {
   visualizeAudio() {
     const draw = () => {
       if (!this.isRecording) return;
-
       this.analyser.getByteFrequencyData(this.dataArray);
       this.drawBars();
-
       requestAnimationFrame(draw);
     };
-
     draw();
   }
 
@@ -308,7 +305,6 @@ class AudioVisualizer {
     const maxFrequency = 3000;
     const minBin = Math.floor((minFrequency / this.audioContext.sampleRate) * this.bufferLength);
     const maxBin = Math.floor((maxFrequency / this.audioContext.sampleRate) * this.bufferLength);
-
     const barWidth = this.canvas.width / (maxBin - minBin);
     let x = 0;
 
@@ -316,13 +312,11 @@ class AudioVisualizer {
       let barHeight = (this.dataArray[i] / 255) * this.canvas.height * 0.9;
       const ratio = (i - minBin) / (maxBin - minBin);
       const hue = 240 - ratio * 240;
-
       this.ctx.fillStyle = `hsl(${hue}, 100%, 50%)`;
       this.ctx.fillRect(x, this.canvas.height - barHeight, barWidth, barHeight);
       x += barWidth;
     }
   }
-
 
   toggleRecording(stream) {
     if (this.isRecording) {
@@ -337,25 +331,20 @@ class AudioVisualizer {
 
   stopVisualization() {
     this.isRecording = false;
-
     const fadeOut = () => {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
       let hasNonZero = false;
       for (let i = 0; i < this.dataArray.length; i++) {
         if (this.dataArray[i] > 0) {
-          this.dataArray[i] *= 0.85; // Reduce amplitude gradually
+          this.dataArray[i] *= 0.85; 
           hasNonZero = true;
         }
       }
-
       this.drawBars();
-
       if (hasNonZero) {
         requestAnimationFrame(fadeOut);
       }
     };
-
     fadeOut();
   }
 

@@ -31,21 +31,17 @@ class utils {
 
   static setTeacherSessionStrings() {
     document.getElementById("teacherSessionTitle").innerText = teacherSession.teacherSessionTitle;
-
     document.getElementById("sessionInfo").innerText = teacherSession.sessionInfo;
     document.getElementById("sessionCodeLabel").innerText = teacherSession.sessionCodeLabel;
     const sessionCode = localStorage.getItem("sessionCode");
     document.getElementById("sessionCode").innerText = sessionCode || teacherSession.sessionCodeLoading;
     document.getElementById("sessionLinkLabel").innerText = teacherSession.sessionLinkLabel;
-
     document.getElementById("askQuestionTitle").innerText = teacherSession.askQuestionTitle;
     document.getElementById("startRecording").innerText = teacherSession.startRecording;
     document.getElementById("questionStatus").innerText = teacherSession.questionStatusWaiting;
     document.getElementById("confirmQuestion").innerText = teacherSession.confirmQuestion;
     document.getElementById("endQuestion").innerText = teacherSession.endQuestion;
-
     document.getElementById("studentResponsesTitle").innerText = teacherSession.studentResponsesTitle;
-
     document.getElementById("backToDashboard").innerText = teacherSession.backToDashboard;
     document.getElementById("home").innerText = common.home;
     document.getElementById("endSession").innerText = common.endSession;
@@ -53,10 +49,6 @@ class utils {
   }
 
   static buildTeacherSessionPage(processQuestionEndpoint, confirmQuestionEndpoint, endQuestionEndpoint, endSessionEndPoint, responseEndpoint) {
-    const sessionId = new URLSearchParams(window.location.search).get("sessionId");
-    if (!this.sessionId) {
-      this.printError(errorMessages.noSessionIdFound);
-    }
     const page = new teacherSessionPage(processQuestionEndpoint, confirmQuestionEndpoint, endQuestionEndpoint, endSessionEndPoint, responseEndpoint);
     document.getElementById("startRecording").addEventListener("click", (e) => page.toggleRecording(e));
     document.getElementById("confirmQuestion").addEventListener("click", (e) => page.confirmQuestion(e));
@@ -82,13 +74,14 @@ class teacherSessionPage {
     this.mediaRecorder = null;
     this.audioChunks = [];
     this.sessionId = new URLSearchParams(window.location.search).get("sessionId");
+    if (!this.sessionId) {
+      this.printError(errorMessages.noSessionIdFound);
+    }
     document.getElementById("sessionId").innerText = this.sessionId || teacherSession.sessionIdLoading;
     if (this.sessionId) {
       document.getElementById("sessionLink").innerHTML = `studentSession.html?sessionId=${this.sessionId}`;
       document.getElementById("sessionLink").href = `studentSession.html?sessionId=${this.sessionId}`;
     }
-    document.getElementById("sessionLink").innerText = teacherSession.sessionLinkGenerating;
-
     this.audioVisualizer = new AudioVisualizer("audioVisualizer");
   }
 

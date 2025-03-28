@@ -58,7 +58,6 @@ export const teacherSession = {
   endQuestion: "End Question Period",
   studentResponsesTitle: "Student Responses",
   noResponses: "No responses yet",
-  sessionLinkGenerating: "Generating...",
   questionStatusWaiting: "Waiting for question...",
   recording: "Recording...",
   processing: "Processing...",

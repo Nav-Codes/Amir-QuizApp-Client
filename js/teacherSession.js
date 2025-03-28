@@ -33,7 +33,7 @@ class utils {
     document.getElementById("teacherSessionTitle").innerText = teacherSession.teacherSessionTitle;
 
     document.getElementById("sessionInfo").innerText = teacherSession.sessionInfo;
-    document.getElementById("sessionIdLabel").innerText = teacherSession.sessionIdLabel;
+    document.getElementById("sessionCodeLabel").innerText = teacherSession.sessionCodeLabel;
     const sessionCode = localStorage.getItem("sessionCode");
     document.getElementById("sessionId").innerText = sessionCode || teacherSession.sessionIdLoading;
     document.getElementById("sessionLinkLabel").innerText = teacherSession.sessionLinkLabel;

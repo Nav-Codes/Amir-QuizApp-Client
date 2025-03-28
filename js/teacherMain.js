@@ -32,6 +32,7 @@ class utils {
     document.getElementById("welcomeTeacher").innerHTML = teacherMain.welcome;
     document.getElementById("dashboardDescription").innerHTML = teacherMain.dashboardDescription;
     document.getElementById("startSession").innerHTML = common.startSession;
+    document.getElementById("continueSession").innerHTML = common.continueSession;
     document.getElementById("viewStats").innerHTML = common.viewStats;
     document.getElementById("home").innerHTML = common.home;
     document.getElementById("logout").innerHTML = common.logout;
@@ -40,6 +41,7 @@ class utils {
   static buildTeacherMainPage(sessionEndpoint, statsEndpoint, logsEndpoint, logoutEndpoint) {
     const page = new teacherMainPage(sessionEndpoint, statsEndpoint, logsEndpoint, logoutEndpoint);
     document.getElementById("startSession").addEventListener("click", (e) => page.startSession(e));
+    document.getElementById("continueSession").addEventListener("click", (e) => page.continueSession(e));
     document.getElementById("viewStats").addEventListener("click", (e) => document.location.href = "teacherStats.html");
     document.getElementById("logout").addEventListener("click", (e) => page.logout(e));
   }
@@ -58,13 +60,13 @@ class teacherMainPage {
     fetch(this.sessionEndpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({})
+      body: JSON.stringify({ token })
     })
       .then(response => response.json())
       .then(data => {
         if (response.ok) {
           localStorage.setItem("sessionId", data.sessionId);
-          window.location.href = "teacherSession.html?sessionId=" + data.sessionId;
+          window.location.href = "teacherSession.html?" + data.sessionId;
         } else {
           this.printError(`${errorMessages.startSessionFailed} ${data.message}`);
         }
@@ -73,6 +75,16 @@ class teacherMainPage {
         console.error('Error:', error);
         this.printError(`${errorMessages.startSessionError} ${error.message}`);
       });
+  }
+
+  continueSession(event) {
+    event.preventDefault();
+    const sessionId = localStorage.getItem("sessionId");
+    if (sessionId) {
+      window.location.href = "teacherSession.html?" + sessionId;
+    } else {
+      this.printError(errorMessages.noSessionFound);
+    }
   }
 
   logout(event) {

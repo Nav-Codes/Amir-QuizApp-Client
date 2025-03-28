@@ -5,7 +5,8 @@ export const common = {
   home: 'Home',
   startSession: "Start New Session",
   viewStats: "View Statistics",
-  viewLogs: "View Logs"
+  viewLogs: "View Logs",
+  continueSession: "Continue Session",
 };
 
 export const home = {
@@ -46,7 +47,7 @@ export const teacherMain = {
 export const teacherSession = {
   teacherSessionTitle: "Teacher Session",
   sessionInfo: "Session Information",
-  sessionIdLabel: "Session ID:",
+  sessionIdLabel: "Join Session Using This Code:",
   sessionIdLoading: "Loading...",
   sessionLinkLabel: "Share this link with students:",
   askQuestionTitle: "Ask a Question",
@@ -65,6 +66,9 @@ export const teacherSession = {
   questionEnded: "Question period ended. ",
   waitingToStart: "Waiting to start...",
   backToDashboard: "Back to Dashboard",
+  confirmQuestionFailed: "Failed to confirm question: ",
+  endQuestionFailed: "Failed to end question period: ",
+  fetchResponsesFailed: "Failed to fetch responses: ",
 };
 
 export const studentSession = {
@@ -80,5 +84,7 @@ export const errorMessages = {
   viewLogsFailed: "Failed to load logs:",
   viewLogsError: "Error fetching logs:",
   logoutFailed: "Logout failed:",
-  logoutError: "Logout failed due to network error:"
+  logoutError: "Logout failed due to network error:",
+  noSessionFound: "No session found. Start a new session.",
+  noSessionIdFound: "Please go back to the dashboard and start a new session or continue an existing one.",
 };

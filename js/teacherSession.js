@@ -7,23 +7,26 @@ class utils {
     const token = localStorage.getItem("token");
     const role = localStorage.getItem("role");
     if (!token || !role || role !== "teacher") {
+      console.log('No token or role found, redirecting to index.html');
       window.location.href = "index.html";
+      return;
     }
     fetch(tokenEndpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ token, role })
     })
-      .then(response => response.json())
-      .then(data => {
-        if (!response.ok) {
-          window.location.href = "index.html";
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error);
+    .then(response => {
+      if (!response.ok) {
+        console.error('Error: Response not OK');
         window.location.href = "index.html";
-      });
+        return; 
+      }
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      window.location.href = "index.html";
+    });
   }
 
   static setTeacherSessionStrings() {
@@ -31,7 +34,8 @@ class utils {
 
     document.getElementById("sessionInfo").innerText = teacherSession.sessionInfo;
     document.getElementById("sessionIdLabel").innerText = teacherSession.sessionIdLabel;
-    document.getElementById("sessionId").innerText = teacherSession.sessionIdLoading;
+    const sessionId = new URLSearchParams(window.location.search).get("sessionId");
+    document.getElementById("sessionId").innerText = sessionId || teacherSession.sessionIdLoading;
     document.getElementById("sessionLinkLabel").innerText = teacherSession.sessionLinkLabel;
 
     document.getElementById("askQuestionTitle").innerText = teacherSession.askQuestionTitle;
@@ -48,6 +52,9 @@ class utils {
   }
 
   static buildTeacherSessionPage(processQuestionEndpoint, confirmQuestionEndpoint, endQuestionEndpoint, responseEndpoint) {
+    if (!this.sessionId) {
+      this.printError(errorMessages.noSessionIdFound);
+    }
     const page = new teacherSessionPage(processQuestionEndpoint, confirmQuestionEndpoint, endQuestionEndpoint, responseEndpoint);
     document.getElementById("startRecording").addEventListener("click", (e) => page.toggleRecording(e));
     document.getElementById("confirmQuestion").addEventListener("click", (e) => page.confirmQuestion(e));
@@ -70,9 +77,9 @@ class teacherSessionPage {
     this.isRecording = false;
     this.mediaRecorder = null;
     this.audioChunks = [];
-    // this.sessionId = new URLSearchParams(window.location.search).get("sessionId") || this.createSession();
+    this.sessionId = new URLSearchParams(window.location.search).get("sessionId");
     document.getElementById("sessionId").innerText = this.sessionId || teacherSession.sessionIdLoading;
-    if (!this.sessionId) {
+    if (this.sessionId) {
       document.getElementById("sessionLink").innerHTML = `studentSession.html?sessionId=${this.sessionId}`;
       document.getElementById("sessionLink").href = `studentSession.html?sessionId=${this.sessionId}`;
     }
@@ -149,17 +156,18 @@ class teacherSessionPage {
 
   async confirmQuestion(event) {
     event.preventDefault();
+    const token = localStorage.getItem("token");
     try {
       await fetch(this.confirmQuestionEndpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sessionId: this.sessionId, }),
+        body: JSON.stringify({ sessionId: this.sessionId, question: this.currentQuestion, token }),
       });
       document.getElementById("questionStatus").textContent = teacherSession.questionConfirmed + this.currentQuestion;
       document.getElementById("confirmQuestion").style.display = "none";
       document.getElementById("endQuestion").style.display = "inline";
     } catch (error) {
-      console.error("Failed to confirm question", error);
+      this.printError(teacherSession.confirmQuestionFailed + error.message);
     }
   }
 
@@ -174,7 +182,7 @@ class teacherSessionPage {
       document.getElementById("questionStatus").textContent = teacherSession.questionEnded + teacherSession.waitingToStart;
       document.getElementById("endQuestion").style.display = "none";
     } catch (error) {
-      console.error("Failed to end question", error);
+      this.printError(teacherSession.endQuestionFailed + error.message);
     }
   }
 
@@ -188,7 +196,7 @@ class teacherSessionPage {
         ? data.responses.map((resp) => `<li>${resp}</li>`).join("") 
         : `<li>${teacherSession.noResponses}</li>`; 
     } catch (error) {
-      console.error("Failed to fetch responses", error);
+      this.printError(teacherSession.fetchResponsesFailed + error.message);
     }
   }
 
@@ -212,9 +220,18 @@ class teacherSessionPage {
         }
       })
       .catch((error) => {
-        console.error('Error:', error);
         this.printError(`${errorMessages.logoutError} ${error.message}`);
       });
+  }
+
+  printError(message) {
+    const errorDiv = document.getElementById("error");
+    if (message) {
+      errorDiv.innerHTML = message;
+      errorDiv.classList.add("show");
+    } else {
+      errorDiv.classList.remove("show");
+    }
   }
 }
 
@@ -252,7 +269,6 @@ class AudioVisualizer {
 
   drawBars() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-  
     const minFrequency = 100;
     const maxFrequency = 3000;
     const minBin = Math.floor((minFrequency / this.audioContext.sampleRate) * this.bufferLength);
@@ -310,7 +326,6 @@ class AudioVisualizer {
   
 }
 
-// Initialize
-// utils.checkAuth('/auth');
+utils.checkAuth('https://dolphin-app-nxbr6.ondigitalocean.app/checktoken');
 utils.setTeacherSessionStrings();
 utils.buildTeacherSessionPage('https://whale-app-aoaek.ondigitalocean.app/project/transcribe', '/api/confirmQuestion', '/api/endQuestion', '/api/getResponses');

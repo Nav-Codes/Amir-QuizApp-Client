@@ -82,7 +82,7 @@ class teacherMainPage {
     event.preventDefault();
     const sessionId = localStorage.getItem("sessionId");
     if (sessionId) {
-      window.location.href = `teacherSession.html?sessionId=${data.sessionId}`;
+      window.location.href = `teacherSession.html?sessionId=${sessionId}`;
     } else {
       this.printError(errorMessages.noSessionFound);
     }

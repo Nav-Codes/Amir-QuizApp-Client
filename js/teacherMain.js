@@ -71,7 +71,7 @@ class teacherMainPage {
       .then(data => {
         localStorage.setItem("sessionId", data.sessionId);
         localStorage.setItem("sessionCode", data.sessionCode);
-        window.location.href = `teacherSession.html?${data.sessionId}`;
+        window.location.href = `teacherSession.html?sessionId=${data.sessionId}`;
       })
       .catch((error) => {
         console.error('Error:', error);

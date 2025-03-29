@@ -19,16 +19,15 @@
     <link rel="stylesheet" href="/css/style.css">
   </head>
   <body>
-    <div id="sessionInput">
-      <label for="sessionID">Enter session ID</label>
-      <input type="text" name="sessionID" id="sessionIdInput" placeholder="Enter session ID">
-      <button onclick="SessionHandler.loadSession()" class="btn">Submit</button>
+    <div class="container btn-container">
+      <div id="sessionInput" class="container btn-container">
+        Enter session ID
+        <input type="text" name="sessionID" id="sessionIdInput" placeholder="Enter session ID">
+        <button id="sessionIdSubmit" class="btn">Join session</button>
+      </div>
+      <div id="questionArea"></div>
+      <a href="#" class="btn red" id="logout">Logout</a>
     </div>
-
-    <div id="questionArea">
-      
-    </div>
-    <a href="#" class="btn red" id="logout">Logout</a>
-    <script src="./js/studentSession.js"></script>
+    <script type="module" src="./js/studentSession.js"></script>
   </body>
 </html>

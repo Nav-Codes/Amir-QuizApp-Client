@@ -2,7 +2,7 @@ import { studentSession } from "../lang/en/messages.js";
 import Utils from "./authUtils.js"
 
 class SessionHandler {
-    get #BASE_ENDPOINT() { return "https://dolphin-app-nxbr6.ondigitalocean.app/api/v1" } 
+    get #BASE_ENDPOINT() { return "https://dolphin-app-nxbr6.ondigitalocean.app/api/v1" }
     get #GET_QUESTION_ENDPOINT() { return `${this.#BASE_ENDPOINT}` };
     get #SEND_ANSWER_ENDPOINT() { return `${this.#BASE_ENDPOINT}` };
     get #CHECK_TOKEN_ENDPOINT() { return "https://dolphin-app-nxbr6.ondigitalocean.app/api/v1/checktoken" }
@@ -64,6 +64,21 @@ class SessionHandler {
             console.log("Error: " + error);
         })
     }
+
+    // async joinSession(sessionCode) {
+    //     fetch(this.#JOIN_SESSION_ENDPOINT, {
+    //         method: "POST",
+    //         body: JSON.stringify({
+    //             session_code: sessionCode,
+    //             token: localStorage.getItem("token")
+    //         })
+    //     }).then(response => {
+    //         return response.json();
+    //     }).then(data => {
+    //         localStorage.setItem("sessionId", data.sessionId);
+    //         window.location.href = "studentSession.html";
+    //     })
+    // }
 
     createQuestionArea() {
         // Get the <div> element where the question area components will be placed

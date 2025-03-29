@@ -55,7 +55,17 @@ export default class Utils {
                 const errorMessage = error.message.includes("Status:")
                     ? error.message
                     : `${errorMessages.logoutError} Network error or no response.`;
-                // this.printError(errorMessage);
+                Utils.#printError(errorMessage);
             });
     }
+
+    static #printError(message) {
+        const errorDiv = document.getElementById("error");
+        if (message) {
+          errorDiv.innerHTML = message;
+          errorDiv.classList.add("show");
+        } else {
+          errorDiv.classList.remove("show");
+        }
+      }
 }

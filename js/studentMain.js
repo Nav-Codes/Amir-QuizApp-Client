@@ -1,5 +1,6 @@
 import { common } from '../lang/en/messages.js';
 import { studentMain } from "../lang/en/messages.js";
+import { commonEndpoints } from './endpoints.js';
 import Utils from "./authUtils.js";
 
 class StudentMain {
@@ -8,7 +9,7 @@ class StudentMain {
     get #LOGOUT_ENDPOINT() { return `${this.#BASE_ENDPOINT}/logout` }
 
     constructor() {
-        Utils.checkAuth(this.#CHECK_TOKEN_ENDPOINT);
+        Utils.checkAuth(commonEndpoints.checkAuth);
         
         let joinSessionBtn = document.getElementById("joinSession");
         joinSessionBtn.innerHTML = studentMain.joinASession;
@@ -19,7 +20,7 @@ class StudentMain {
         let logoutBtn = document.getElementById("logout");
         logoutBtn.innerHTML = common.logout;
         logoutBtn.addEventListener("click", () => {
-            Utils.logout(this.#LOGOUT_ENDPOINT, this.logout);
+            Utils.logout(commonEndpoints.logout, this.logout);
         })
     }
 

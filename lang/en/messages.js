@@ -71,6 +71,10 @@ export const teacherSession = {
   score: "Score: ",
 };
 
+export const studentMain = {
+  joinASession: "Join a session",
+}
+
 export const studentSession = {
   waitingForQuestion: "Waiting for teacher's question...",
   answerPlaceholder: "Enter answer..."

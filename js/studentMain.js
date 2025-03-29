@@ -1,6 +1,6 @@
-import { common } from "../lang/en/messages";
-import { studentMain } from "../lang/en/messages";
-import Utils from "./authUtils"
+import { common } from '../lang/en/messages.js';
+import { studentMain } from "../lang/en/messages.js";
+import Utils from "./authUtils.js";
 
 class StudentMain {
     get #BASE_ENDPOINT() { return "https://dolphin-app-nxbr6.ondigitalocean.app/api/v1" }
@@ -13,7 +13,7 @@ class StudentMain {
         let joinSessionBtn = document.getElementById("joinSession");
         joinSessionBtn.innerHTML = studentMain.joinASession;
         joinSessionBtn.addEventListener("click", () => {
-            window.location.href = "studentSession.html"
+            window.location.href = "studentSession.html";
         })
         
         let logoutBtn = document.getElementById("logout");

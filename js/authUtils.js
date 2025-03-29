@@ -1,4 +1,4 @@
-import { errorMessages } from "../lang/en/messages";
+import { errorMessages } from "../lang/en/messages.js";
 
 export default class Utils {
     static checkAuth(tokenEndpoint) {
@@ -34,7 +34,7 @@ export default class Utils {
      */
     static logout(logoutEndpoint, logoutSuccessCallback) {
         const token = localStorage.getItem("token");
-        fetch(this.logoutEndpoint, {
+        fetch(logoutEndpoint, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ token })
@@ -55,7 +55,7 @@ export default class Utils {
                 const errorMessage = error.message.includes("Status:")
                     ? error.message
                     : `${errorMessages.logoutError} Network error or no response.`;
-                this.printError(errorMessage);
+                // this.printError(errorMessage);
             });
     }
 }

@@ -42,7 +42,7 @@ export const signup = {
 
 export const teacherMain = {
   welcome: "Welcome to the Teacher Dashboard",
-  dashboardDescription: "Here you can start a new session, view statistics, and check the logs."
+  dashboardDescription: "Here you can start a new session, continue an existing one, and view statistics.",
 };
 
 export const teacherSession = {
@@ -57,7 +57,7 @@ export const teacherSession = {
   confirmQuestion: "Confirm Question",
   endQuestion: "End Question Period",
   studentResponsesTitle: "Student Responses",
-  noResponses: "No responses yet",
+  noResponses: "No responses yet...",
   questionStatusWaiting: "Waiting for question...",
   recording: "Recording...",
   processing: "Processing...",

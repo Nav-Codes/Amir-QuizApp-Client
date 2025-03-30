@@ -14,6 +14,6 @@ export const studentEndpoints = {
 }
 
 export const adminStatsEndpoints = {
-    userStats: `${baseEndpoint}/`,
+    userStats: `${baseEndpoint}/apiUserUsage`,
     generalStats: `${baseEndpoint}/`
 }

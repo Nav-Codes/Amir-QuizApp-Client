@@ -107,6 +107,7 @@ class SessionHandler {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 questionId: localStorage.getItem("questionId"),
+                question: document.getElementById("teacherQuestion").innerHTML,
                 token: localStorage.getItem("token"),
                 answer: answer
             })

@@ -12,6 +12,7 @@ class SessionHandler {
             this.joinSession();
         });
 
+        //ChatGPT helped with ensuring that the callback was passed in and called properly
         let logoutBtn = document.getElementById("logout");
         logoutBtn.addEventListener("click", () => {
             Utils.logout(commonEndpoints.logout, this.logout);
@@ -43,15 +44,22 @@ class SessionHandler {
             return response.json();
         }).then(data => {
             console.log("sessionId: " + data.sessionId)
-            localStorage.setItem("sessionId", data.sessionId);
-            document.getElementById("sessionInput").remove();
-            SessionRenderer.createQuestionArea();
-            setInterval(() => {
-                this.getQuestion();
-            }, 1000);
+            this.setupQuestionArea(data);
         }).catch(error => {
             console.log("Error: " + error)
         })
+    }
+
+    setupQuestionArea(data) {
+        localStorage.setItem("sessionId", data.sessionId);
+        document.getElementById("sessionInput").remove();
+        SessionRenderer.createQuestionArea();
+        document.getElementById("answerSubmitBtn").addEventListener("click", () => {
+            this.sendAnswer();
+        })
+        setInterval(() => {
+            this.getQuestion();
+        }, 1000);
     }
 
     /** This will create a fetch request to the server to request the question asked by teacher */
@@ -89,16 +97,17 @@ class SessionHandler {
         document.getElementById("answerSubmitBtn").disabled = true;
         fetch(studentEndpoints.sendAnswer, {
             method: "POST",
-            headers: {"Content-Type": "application/json"},
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                questionId: localStorage.getItem("questionId"), 
-                token: localStorage.getItem("token"), 
-                answer: answer})
+                questionId: localStorage.getItem("questionId"),
+                token: localStorage.getItem("token"),
+                answer: answer
+            })
         }).then(response => {
             document.getElementById("statusCode").innerHTML = `${common.statusCode}${response.status}`;
             return response.json();
         }).then(data => {
-            document.getElementById("studentGrade").innerHTML = `Score: ${data.grade}. Feedback: ${data.feedback}`;
+            document.getElementById("studentGrade").innerHTML = `${studentSession.score}${data.result}.`;
         }).catch(error => {
             console.log("Error: " + error);
         })
@@ -122,6 +131,7 @@ class SessionRenderer {
         }
     }
 
+    //ChatGPT 3.5 and 4 was usedd to help make this function
     static createQuestionArea() {
         // Get the <div> element where the question area components will be placed
         const questionArea = document.getElementById("questionArea");
@@ -145,9 +155,6 @@ class SessionRenderer {
         button.id = "answerSubmitBtn";
         button.classList.add("btn");
         button.classList.add("btn-blue");
-        button.onclick = function () {
-            this.sendAnswer(answerInput.value);
-        };
 
         answerInput.disabled = true;
         button.disabled = true;

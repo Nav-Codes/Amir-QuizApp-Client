@@ -1,3 +1,5 @@
+//ChatGPT helped with debugging callback and import issues with this code and other minor bugs
+
 import { errorMessages } from "../lang/en/messages.js";
 
 export default class Utils {

@@ -1,3 +1,5 @@
+//ChatGPT was used to fix minor bugs with this code
+
 export const baseEndpoint = "https://dolphin-app-nxbr6.ondigitalocean.app/api/v1";
 
 export const commonEndpoints = {

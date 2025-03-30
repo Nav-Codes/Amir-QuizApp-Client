@@ -82,7 +82,8 @@ export const studentSession = {
   joinSession: "Join Session",
   waitingForQuestion: "Waiting for teacher's question...",
   answerPlaceholder: "Enter answer...",
-  submitAnswer: "Submit Answer"
+  submitAnswer: "Submit Answer",
+  score: "Score: "
 }
 
 export const errorMessages = {

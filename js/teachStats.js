@@ -14,7 +14,7 @@ class TeacherStats {
             method: "GET"
         })
             .then(response => {
-                
+
             })
             .then(data => {
 
@@ -25,7 +25,18 @@ class TeacherStats {
     }
 
     async generalAPIUsage() {
+        fetch(adminStatsEndpoints.generalStats, {
+            method: "GET"
+        })
+            .then(response => {
+                
+            })
+            .then(data => {
 
+            })
+            .catch(error => {
+
+            })
     }
 
     setUserFacingStrings() {

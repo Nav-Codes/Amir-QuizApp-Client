@@ -18,6 +18,9 @@ class StudentMain {
         logoutBtn.addEventListener("click", () => {
             Utils.logout(commonEndpoints.logout, this.logout);
         })
+
+        document.getElementById("totalAPI").innerHTML = `${common.totalAPI}`;
+        document.getElementById("statusCode").innerHTML = `${common.statusCode}`;
     }
 
     /** Handles logout functionality for the client side */

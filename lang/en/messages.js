@@ -8,6 +8,8 @@ export const common = {
   viewLogs: "View Logs",
   continueSession: "Continue Session",
   endSession: "End Session",
+  statusCode: "Status code: ",
+  totalAPI: "Total API consumtion: "
 };
 
 export const home = {

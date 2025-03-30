@@ -35,11 +35,13 @@ class SessionHandler {
                 token: localStorage.getItem("token")
             })
         }).then(response => {
+            document.getElementById("statusCode").innerHTML = `${common.statusCode}${response.status}`;
             if (response.status !== 200) {
                 document.getElementById("sessionIdSubmit").disabled = false;
             }
             return response.json();
         }).then(data => {
+            console.log("sessionId: " + data.sessionId)
             localStorage.setItem("sessionId", data.sessionId);
             document.getElementById("sessionInput").remove();
             SessionRenderer.createQuestionArea();
@@ -61,6 +63,7 @@ class SessionHandler {
                 token: localStorage.getItem("token")
             })
         }).then(response => {
+            document.getElementById("statusCode").innerHTML = `${common.statusCode}${response.status}`;
             return response.json();
         }).then(data => {
             if (Object.keys(data.question).length !== 0) {
@@ -90,6 +93,7 @@ class SessionHandler {
                 answer: answer
             }
         }).then(response => {
+            document.getElementById("statusCode").innerHTML = `${common.statusCode}${response.status}`;
             return response.json();
         }).then(data => {
             document.getElementById("studentGrade").innerHTML = `Score: ${data.grade}. Feedback: ${data.feedback}`;

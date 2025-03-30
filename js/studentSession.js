@@ -88,7 +88,7 @@ class SessionHandler {
 
     /** Clears the score and updates the question */
     updateQuestionArea(data) {
-        localStorage.setItem("questionId", data.question.id)
+        localStorage.setItem("questionId", data.question.id);
         document.getElementById("teacherQuestion").innerHTML = data.question.text;
         document.getElementById("studentAnswer").innerHTML = "";
         this.#currentQuestion = data.question.text;
@@ -172,6 +172,10 @@ class SessionRenderer {
         leaveSessionBtn.id = "leaveSessionBtn";
         leaveSessionBtn.classList.add("btn");
         leaveSessionBtn.classList.add("btn-red");
+        leaveSessionBtn.onclick(() => {
+            localStorage.removeItem("questionId");
+            window.location.href = "studentMain.html";
+        })
 
         answerInput.disabled = true;
         button.disabled = true;

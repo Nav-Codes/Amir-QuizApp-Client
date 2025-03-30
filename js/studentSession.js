@@ -57,20 +57,20 @@ class SessionHandler {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                sessionId: localStorage.getItem("sessionId")
+                sessionId: localStorage.getItem("sessionId"),
+                token: localStorage.getItem("token")
             })
         }).then(response => {
             return response.json();
         }).then(data => {
-            console.log("Get question data: " + data);
-            // if (data.questionId !== null && data.teacherQuestion !== null) {
-                // if (data.teacherQuestion !== this.#currentQuestion) {
-                //     document.getElementById("teacherQuestion").innerHTML = data.teacherQuestion;
-                //     this.#currentQuestion = data.teacherQuestion;
-                //     document.getElementById("studentAnswer").disabled = false;
-                //     document.getElementById("answerSubmitBtn").disabled = false;
-                // }
-            // }
+            if (Object.keys(data.question).length !== 0) {
+                if (data.question.text !== this.#currentQuestion) {
+                    document.getElementById("teacherQuestion").innerHTML = data.question.text;
+                    this.#currentQuestion = data.question.text;
+                    document.getElementById("studentAnswer").disabled = false;
+                    document.getElementById("answerSubmitBtn").disabled = false;
+                }
+            }
         }).catch(error => {
             console.log("Error: " + error);
         })
@@ -80,6 +80,8 @@ class SessionHandler {
      *  and server will say its right or wrong with grade
     */
     async sendAnswer(answer) {
+        document.getElementById("studentAnswer").disabled = true;
+        document.getElementById("answerSubmitBtn").disabled = true;
         fetch(studentEndpoints.sendAnswer, {
             method: "POST",
             body: {
@@ -122,7 +124,6 @@ class SessionRenderer {
         const question = document.createElement("p");
         question.id = "teacherQuestion";
         question.textContent = studentSession.waitingForQuestion;
-        //will need to get question from back end using fetch
 
         // Create the <input> element for student to type in their answer
         const answerInput = document.createElement("input");
@@ -132,20 +133,20 @@ class SessionRenderer {
 
         // Create the <button> element to submit answer
         const button = document.createElement("button");
-        button.textContent = "Submit";
+        button.innerHTML = studentSession.submitAnswer;
         button.id = "answerSubmitBtn";
         button.classList.add("btn");
         button.classList.add("btn-blue");
         button.onclick = function () {
-            button.disabled = true;
-            answerInput.disabled = true;
             this.sendAnswer(answerInput.value);
         };
+
+        answerInput.disabled = true;
+        button.disabled = true;
 
         const grade = document.createElement("p");
         grade.id = "studentGrade";
 
-        // const questionArea = document.getElementById("questionArea");
         questionArea.innerHTML = "";
         questionArea.insertAdjacentElement("beforeend", question);
         questionArea.insertAdjacentElement("beforeend", answerInput);

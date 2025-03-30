@@ -97,3 +97,10 @@ export const errorMessages = {
   noSessionFound: "No session found. Start a new session.",
   noSessionIdFound: "Please go back to the dashboard and start a new session or continue an existing one.",
 };
+
+export const adminStatsMessages = {
+  apiStats: "API Statistics",
+  general: "General API Stats",
+  endpointUsage: "API Endpoint Usage",
+  userUsage: "API User Usage",
+}

@@ -10,3 +10,8 @@ export const studentEndpoints = {
     getQuestion: `${baseEndpoint}/retrivequestion`,
     sendAnswer: `${baseEndpoint}/recieveanswer`
 }
+
+export const adminStatsEndpoints = {
+    userStats: `${baseEndpoint}/`,
+    generalStats: `${baseEndpoint}/`
+}

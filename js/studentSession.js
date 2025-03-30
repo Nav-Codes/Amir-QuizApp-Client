@@ -22,6 +22,7 @@ class SessionHandler {
         localStorage.removeItem("token");
         localStorage.removeItem("role");
         localStorage.removeItem("sessionId");
+        localStorage.removeItem("questionId");
         window.location.href = "index.html";
     }
 
@@ -68,8 +69,7 @@ class SessionHandler {
         }).then(data => {
             if (Object.keys(data.question).length !== 0) {
                 if (data.question.text !== this.#currentQuestion) {
-                    console.log("Question Id: " + data.question.id);
-                    console.log("Question curr_question : " + data.question.curr_question);
+                    localStorage.setItem("questionId", data.question.id)
                     document.getElementById("teacherQuestion").innerHTML = data.question.text;
                     this.#currentQuestion = data.question.text;
                     document.getElementById("studentAnswer").disabled = false;
@@ -89,9 +89,11 @@ class SessionHandler {
         document.getElementById("answerSubmitBtn").disabled = true;
         fetch(studentEndpoints.sendAnswer, {
             method: "POST",
-            body: {
-                answer: answer
-            }
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                questionId: localStorage.getItem("questionId"), 
+                token: localStorage.getItem("token"), 
+                answer: answer})
         }).then(response => {
             document.getElementById("statusCode").innerHTML = `${common.statusCode}${response.status}`;
             return response.json();

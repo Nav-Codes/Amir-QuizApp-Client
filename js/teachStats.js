@@ -20,6 +20,8 @@ class TeacherStats {
                 return response.json();
             })
             .then(data => {
+                console.log(data.messsage);
+                console.log(data.data);
                 this.generateUserAPITable(data.data);
             })
             .catch(error => {

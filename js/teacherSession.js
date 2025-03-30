@@ -161,11 +161,12 @@ class teacherSessionPage {
 
   async endQuestion(event) {
     event.preventDefault();
+    const token = localStorage.getItem("token");
     try {
       const response = await fetch(this.endQuestionEndpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sessionId: this.sessionId }),
+        body: JSON.stringify({ sessionId: this.sessionId, token }),
       });
       if (response.ok) {
         document.getElementById("questionStatus").textContent = teacherSession.questionEnded + teacherSession.waitingToStart;
@@ -185,7 +186,7 @@ class teacherSessionPage {
       const response = await fetch(this.responseEndpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sessionId: this.sessionId, token: token }),
+        body: JSON.stringify({ sessionId: this.sessionId, token }),
       });
       if (!response.ok) {
         const errorData = await response.json();
@@ -317,7 +318,7 @@ class AudioVisualizer {
 
 utils.checkAuth('https://dolphin-app-nxbr6.ondigitalocean.app/api/v1/checktoken');
 utils.setTeacherSessionStrings();
-utils.buildTeacherSessionPage('https://whale-app-aoaek.ondigitalocean.app/project/transcribe', 
+utils.buildTeacherSessionPage('https://whale-app-aoaek.ondigitalocean.app/project/api/v1/transcribeQuestion', 
   'https://dolphin-app-nxbr6.ondigitalocean.app/api/v1/confirmquestion', 
   'https://dolphin-app-nxbr6.ondigitalocean.app/api/v1/endquestion', 
   'https://dolphin-app-nxbr6.ondigitalocean.app/api/v1/destroysession',

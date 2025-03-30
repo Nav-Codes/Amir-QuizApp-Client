@@ -5,7 +5,7 @@ import Utils from "./authUtils.js";
 
 class TeacherStats {
     constructor() {
-        Utils.checkAuth(localStorage.getItem("token"));
+        Utils.checkAuth(localStorage.getItem("token"), localStorage.getItem("role"));
         TableAndStringsRenderer.setUserFacingStrings();
         this.usersAPIUsage();
         this.generalEndpointUsage();

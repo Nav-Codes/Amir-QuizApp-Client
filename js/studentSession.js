@@ -42,8 +42,8 @@ class SessionHandler {
             // console.log(JSON.parse(response));
             return response.json();
         }).then(data => {
-            console.log("Join Session data: " + data);
-            console.log("Join Session data parsed: " + JSON.parse(data));
+            console.log("Join Session data: " + data.toString());
+            console.log("Join Session data: " + data.sessionId);
             // localStorage.setItem("sessionId", data.sessionId);
             // document.getElementById("sessionInput").remove();
             // SessionRenderer.createQuestionArea();

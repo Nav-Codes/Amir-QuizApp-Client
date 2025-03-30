@@ -319,7 +319,7 @@ class AudioVisualizer {
 
 utils.checkAuth('https://dolphin-app-nxbr6.ondigitalocean.app/api/v1/checktoken');
 utils.setTeacherSessionStrings();
-utils.buildTeacherSessionPage('https://whale-app-aoaek.ondigitalocean.app/api/v1/transcribeQuestion', 
+utils.buildTeacherSessionPage('https://dolphin-app-nxbr6.ondigitalocean.app/api/v1/transcribeQuestion', 
   'https://dolphin-app-nxbr6.ondigitalocean.app/api/v1/confirmquestion', 
   'https://dolphin-app-nxbr6.ondigitalocean.app/api/v1/endquestion', 
   'https://dolphin-app-nxbr6.ondigitalocean.app/api/v1/destroysession',

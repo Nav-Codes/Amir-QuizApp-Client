@@ -142,8 +142,8 @@ class TableAndStringsRenderer {
         let requestHeader = document.createElement("th");
         requestHeader.textContent = adminStatsMessages.numRequestsHeader;
 
-        headerRow.insertAdjacentElement("beforeend", methodHeader);
         headerRow.insertAdjacentElement("beforeend", endpointHeader);
+        headerRow.insertAdjacentElement("beforeend", methodHeader);
         headerRow.insertAdjacentElement("beforeend", requestHeader);
 
         tableHead.insertAdjacentElement("beforeend", headerRow);
@@ -152,7 +152,6 @@ class TableAndStringsRenderer {
 
     static setUserFacingStrings() {
         document.getElementById("apiStats").innerHTML = adminStatsMessages.apiStats;
-        document.getElementById("generalStats").innerHTML = adminStatsMessages.general;
         document.getElementById("endpointUsage").innerHTML = adminStatsMessages.endpointUsage;
         document.getElementById("userUsage").innerHTML = adminStatsMessages.userUsage;
         document.getElementById("backToDashboard").innerHTML = teacherSession.backToDashboard;

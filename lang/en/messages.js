@@ -101,7 +101,6 @@ export const errorMessages = {
 
 export const adminStatsMessages = {
   apiStats: "API Statistics",
-  general: "General API Stats",
   endpointUsage: "API Endpoint Usage",
   userUsage: "API User Usage",
   userIdHeader: "User id",

@@ -77,11 +77,7 @@ class SessionHandler {
         }).then(data => {
             if (Object.keys(data.question).length !== 0) {
                 if (data.question.text !== this.#currentQuestion) {
-                    localStorage.setItem("questionId", data.question.id)
-                    document.getElementById("teacherQuestion").innerHTML = data.question.text;
-                    this.#currentQuestion = data.question.text;
-                    document.getElementById("studentAnswer").disabled = false;
-                    document.getElementById("answerSubmitBtn").disabled = false;
+                    this.updateQuestionArea(data);
                 }
             }
         }).catch(error => {
@@ -89,11 +85,21 @@ class SessionHandler {
         })
     }
 
+    /** Clears the score and updates the question */
+    updateQuestionArea(data) {
+        localStorage.setItem("questionId", data.question.id)
+        document.getElementById("teacherQuestion").innerHTML = data.question.text;
+        document.getElementById("studentAnswer").innerHTML = "";
+        this.#currentQuestion = data.question.text;
+        document.getElementById("studentAnswer").disabled = false;
+        document.getElementById("answerSubmitBtn").disabled = false;
+    }
+
     /** This will make fetch request to server with answer to question 
-     *  and server will say its right or wrong with grade
+     *  and server will say its right or wrong with grade. 
+     * ChatGPT helped with the formatting of the user strings. 
     */
     async sendAnswer(answer) {
-        console.log("ANSWER IS: " + answer);
         document.getElementById("studentAnswer").disabled = true;
         document.getElementById("answerSubmitBtn").disabled = true;
         fetch(studentEndpoints.sendAnswer, {
@@ -108,7 +114,7 @@ class SessionHandler {
             document.getElementById("statusCode").innerHTML = `${common.statusCode}${response.status}`;
             return response.json();
         }).then(data => {
-            document.getElementById("studentGrade").innerHTML = `${studentSession.score}${data.result}.`;
+            document.getElementById("studentGrade").innerHTML = `${studentSession.score}${parseFloat(data.result).toFixed(2)}.`;
         }).catch(error => {
             console.log("Error: " + error);
         })

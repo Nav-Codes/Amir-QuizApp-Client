@@ -55,7 +55,7 @@ class SessionHandler {
         document.getElementById("sessionInput").remove();
         SessionRenderer.createQuestionArea();
         document.getElementById("answerSubmitBtn").addEventListener("click", () => {
-            this.sendAnswer();
+            this.sendAnswer(document.getElementById("studentAnswer").value);
         })
         setInterval(() => {
             this.getQuestion();

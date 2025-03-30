@@ -53,7 +53,6 @@ class SessionHandler {
 
     /** This will create a fetch request to the server to request the question asked by teacher */
     async getQuestion() {
-        await this.loadSession();
         fetch(studentEndpoints.getQuestion, {
             method: "POST",
             headers: { "Content-Type": "application/json" },

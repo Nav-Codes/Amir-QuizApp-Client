@@ -7,7 +7,7 @@ class SessionHandler {
 
     constructor() {
         SessionRenderer.loadInitalUserStrings();
-        Utils.checkAuth(commonEndpoints.checkAuth);
+        Utils.checkAuth(commonEndpoints.checkAuth, localStorage.getItem("role"));
         document.getElementById("sessionIdSubmit").addEventListener("click", () => {
             this.joinSession();
         });

@@ -2,11 +2,11 @@ import { adminStatsMessages } from "../lang/en/messages.js";
 import { teacherSession } from "../lang/en/messages.js";
 import { adminStatsEndpoints } from "./endpoints.js";
 import { commonEndpoints } from "./endpoints.js";
-import Utils from "./authUtils.js";
+// import Utils from "./authUtils.js";
 
 class TeacherStats {
     constructor() {
-        Utils.checkAuth(commonEndpoints.checkAuth, localStorage.getItem("role"));
+        this.checkAuth(commonEndpoints.checkAuth);
         TableAndStringsRenderer.setUserFacingStrings();
         this.usersAPIUsage();
         this.generalEndpointUsage();
@@ -51,6 +51,32 @@ class TeacherStats {
     generateEndpointTable(data) {
         TableAndStringsRenderer.generateEndpointTableHeaders();
         TableAndStringsRenderer.generateTableBody(data, document.getElementById("apiendpointusage"));
+    }
+
+    checkAuth(tokenEndpoint) {
+        const token = localStorage.getItem("token");
+        const role = localStorage.getItem("role");
+        if (!token || !role || role !== "teacher") {
+            console.log('No token or role found, redirecting to index.html');
+            window.location.href = "index.html";
+            return;
+        }
+        fetch(tokenEndpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token, role })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    console.error('Error: Response not OK');
+                    window.location.href = "index.html";
+                    return;
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                window.location.href = "index.html";
+            });
     }
 }
 

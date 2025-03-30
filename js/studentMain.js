@@ -5,7 +5,7 @@ import Utils from "./authUtils.js";
 
 class StudentMain {
     constructor() {
-        Utils.checkAuth(commonEndpoints.checkAuth, localStorage.getItem("role"));
+        Utils.checkAuth(commonEndpoints.checkAuth);
         
         let joinSessionBtn = document.getElementById("joinSession");
         joinSessionBtn.innerHTML = studentMain.joinASession;

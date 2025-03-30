@@ -3,10 +3,10 @@
 import { errorMessages } from "../lang/en/messages.js";
 
 export default class Utils {
-    static checkAuth(tokenEndpoint, userRole) {
+    static checkAuth(tokenEndpoint) {
         const token = localStorage.getItem("token");
         const role = localStorage.getItem("role");
-        if (!token || !role || role !== userRole) {
+        if (!token || !role || role !== "student") {
             console.log('No token or role found, redirecting to index.html');
             window.location.href = "index.html";
             return;

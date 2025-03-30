@@ -11,6 +11,11 @@ class SessionHandler {
         document.getElementById("sessionIdSubmit").addEventListener("click", () => {
             this.joinSession();
         });
+
+        let logoutBtn = document.getElementById("logout");
+        logoutBtn.addEventListener("click", () => {
+            Utils.logout(commonEndpoints.logout, this.logout);
+        })
     }
 
     async joinSession() {

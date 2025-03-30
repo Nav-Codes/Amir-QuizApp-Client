@@ -39,6 +39,7 @@ class SessionHandler {
                 document.getElementById("sessionIdSubmit").disabled = false;
             }
             console.log(response);
+            console.log(JSON.parse(response));
             return response.json();
         }).then(data => {
             console.log("Join Session data: " + data);

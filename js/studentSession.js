@@ -29,12 +29,13 @@ class SessionHandler {
         document.getElementById("sessionIdSubmit").disabled = true;
         fetch(studentEndpoints.joinSession, {
             method: "POST",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 session_code: document.getElementById("sessionIdInput").value,
                 token: localStorage.getItem("token")
             })
         }).then(response => {
-            if (response.status !== 200){
+            if (response.status !== 200) {
                 document.getElementById("sessionIdSubmit").disabled = false;
             }
             return response.json();
@@ -46,7 +47,9 @@ class SessionHandler {
             // setInterval(() => {
             //     this.getQuestion(localStorage.getItem("sessionId"));
             // }, 1000);
-        });
+        }).catch(error => {
+            console.log("Error: " + error)
+        })
     }
 
     /** This will create a fetch request to the server to request the question asked by teacher */
@@ -95,6 +98,16 @@ class SessionRenderer {
         document.getElementById("sessionId").innerHTML = studentSession.enterSessionId;
         document.getElementById("sessionIdSubmit").innerHTML = studentSession.joinSession;
         document.getElementById("logout").innerHTML = common.logout;
+    }
+
+    static printError(message) {
+        const errorDiv = document.getElementById("error");
+        if (message) {
+            errorDiv.innerHTML = message;
+            errorDiv.classList.add("show");
+        } else {
+            errorDiv.classList.remove("show");
+        }
     }
 
     static createQuestionArea() {

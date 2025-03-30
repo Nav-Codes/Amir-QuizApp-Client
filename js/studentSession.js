@@ -18,6 +18,13 @@ class SessionHandler {
         })
     }
 
+    logout() {
+        localStorage.removeItem("token");
+        localStorage.removeItem("role");
+        localStorage.removeItem("sessionId");
+        window.location.href = "index.html";
+    }
+
     async joinSession() {
         document.getElementById("sessionIdSubmit").disabled = true;
         fetch(studentEndpoints.joinSession, {

@@ -180,11 +180,12 @@ class teacherSessionPage {
   }
 
   async getAnswers() {
+    const token = localStorage.getItem("token");
     try {
       const response = await fetch(this.responseEndpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sessionId: this.sessionId }),
+        body: JSON.stringify({ sessionId: this.sessionId, token: token }),
       });
       if (!response.ok) {
         const errorData = await response.json();

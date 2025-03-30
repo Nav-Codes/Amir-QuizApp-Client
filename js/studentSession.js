@@ -13,16 +13,6 @@ class SessionHandler {
         });
     }
 
-    // async loadSession() {
-    //     let sessionCode = document.getElementById("sessionIdInput").value;
-    //     await this.joinSession(sessionCode);
-    //     document.getElementById("sessionInput").remove();
-    //     SessionRenderer.createQuestionArea();
-    //     setInterval(() => {
-    //         this.getQuestion(localStorage.getItem("sessionId"));
-    //     }, 1000);
-    // }
-
     async joinSession() {
         document.getElementById("sessionIdSubmit").disabled = true;
         fetch(studentEndpoints.joinSession, {
@@ -32,6 +22,9 @@ class SessionHandler {
                 token: localStorage.getItem("token")
             })
         }).then(response => {
+            if (response.status !== 200){
+                document.getElementById("sessionIdSubmit").disabled = false;
+            }
             return response.json();
         }).then(data => {
             console.log("Join Session data: " + data);

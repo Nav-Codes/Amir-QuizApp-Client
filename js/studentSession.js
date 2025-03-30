@@ -100,6 +100,7 @@ class SessionHandler {
      * ChatGPT helped with the formatting of the user strings. 
     */
     async sendAnswer(answer) {
+        console.log("QUESTION: " + document.getElementById("teacherQuestion").innerHTML);
         document.getElementById("studentAnswer").disabled = true;
         document.getElementById("answerSubmitBtn").disabled = true;
         fetch(studentEndpoints.sendAnswer, {

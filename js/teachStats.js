@@ -5,10 +5,10 @@ import Utils from "./authUtils.js";
 
 class TeacherStats {
     constructor() {
-        // Utils.checkAuth(localStorage.getItem("token"));
-        this.setUserFacingStrings();
-        // this.usersAPIUsage();
-        // this.generalAPIUsage();
+        Utils.checkAuth(localStorage.getItem("token"));
+        TableAndStringsRenderer.setUserFacingStrings();
+        this.usersAPIUsage();
+        this.generalEndpointUsage();
     }
 
     async usersAPIUsage() {
@@ -19,7 +19,7 @@ class TeacherStats {
                 return response.json();
             })
             .then(data => {
-                generateUserAPITable(data);
+                this.generateUserAPITable(data);
             })
             .catch(error => {
                 console.log("Error: " + error);
@@ -28,11 +28,54 @@ class TeacherStats {
 
     // ChatGPT helped with the creation of the table
     generateUserAPITable(data) {
-        this.generateUserTableHeaders();
-        this.generateUserTableBody(data);
+        TableAndStringsRenderer.generateUserTableHeaders();
+        TableAndStringsRenderer.generateTableBody(data, document.getElementById("apiuserusage"));
     }
 
-    generateUserTableHeaders() {
+    async generalEndpointUsage() {
+        fetch(`${adminStatsEndpoints.generalStats}?token=${localStorage.getItem("token")}`, {
+            method: "GET"
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                this.generateEndpointTable(data);
+            })
+            .catch(error => {
+                console.log("Error: " + error)
+            })
+    }
+
+    generateEndpointTable(data) {
+        TableAndStringsRenderer.generateEndpointTableHeaders();
+        TableAndStringsRenderer.generateTableBody(data, document.getElementById("apiendpointusage"));
+    }
+}
+
+class TableAndStringsRenderer {
+    /** Generates the table body for the given data and table 
+     * ChatGPT helped with generating a dynamic process for inserting the data into the table */
+    static generateTableBody(data, table) {
+        let tableBody = document.createElement("tbody");
+
+        data.forEach(obj => {
+            let row = document.createElement("tr");
+
+            for (let key in obj) {
+                let data = document.createElement("td");
+                data.innerHTML = obj[key];
+                row.insertAdjacentElement("beforeend", data);
+            }
+
+            tableBody.insertAdjacentElement("beforeend", row)
+        });
+
+        table.insertAdjacentElement("beforeend", tableBody);
+    }
+
+    /** Generates table headers for user endpoint consumption table */
+    static generateUserTableHeaders() {
         let tableHead = document.createElement("thead");
         let headerRow = document.createElement("tr");
 
@@ -54,46 +97,8 @@ class TeacherStats {
         document.getElementById("apiuserusage").insertAdjacentElement("beforeend", tableHead);
     }
 
-    //ChatGPT helped with generating a dynamic process for inserting the data into the table
-    generateUserTableBody(data) {
-        let tableBody = document.createElement("tbody");
-
-        data.forEach(userObj => {
-            let userRow = document.createElement("tr");
-
-            for (let key in userObj) {
-                let userData = document.createElement("td");
-                userData.innerHTML = userObj[key];
-                userRow.insertAdjacentElement("beforeend", userData);
-            }
-
-            tableBody.insertAdjacentElement("beforeend", userRow)
-        });
-
-        document.getElementById("apiuserusage").insertAdjacentElement("beforeend", tableBody);
-    }
-
-    async generalAPIUsage() {
-        fetch(`${adminStatsEndpoints.generalStats}?token=${localStorage.getItem("token")}`, {
-            method: "GET"
-        })
-            .then(response => {
-                
-            })
-            .then(data => {
-
-            })
-            .catch(error => {
-
-            })
-    }
-
-    generateEndpointTable(data) {
-        this.generateEndpointTableHeaders();
-        this.generateEndpointTableBody(data);
-    }
-
-    generateEndpointTableHeaders() {
+    /** Generates table headers for general endpoint consumption table */
+    static generateEndpointTableHeaders() {
         let tableHead = document.createElement("thead");
         let headerRow = document.createElement("tr");
 
@@ -103,7 +108,7 @@ class TeacherStats {
         endpointHeader.textContent = adminStatsMessages.endpointHeader;
         let requestHeader = document.createElement("th");
         requestHeader.textContent = adminStatsMessages.numRequestsHeader;
-        
+
         headerRow.insertAdjacentElement("beforeend", methodHeader);
         headerRow.insertAdjacentElement("beforeend", endpointHeader);
         headerRow.insertAdjacentElement("beforeend", requestHeader);
@@ -112,11 +117,7 @@ class TeacherStats {
         document.getElementById("apiendpointusage").insertAdjacentElement("beforeend", tableHead);
     }
 
-    generateEndpointTableBody(data) {
-        // let tableBody = document.cre
-    }
-
-    setUserFacingStrings() {
+    static setUserFacingStrings() {
         document.getElementById("apiStats").innerHTML = adminStatsMessages.apiStats;
         document.getElementById("generalStats").innerHTML = adminStatsMessages.general;
         document.getElementById("endpointUsage").innerHTML = adminStatsMessages.endpointUsage;

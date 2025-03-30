@@ -1,11 +1,12 @@
 import { adminStatsMessages } from "../lang/en/messages.js";
 import { teacherSession } from "../lang/en/messages.js";
 import { adminStatsEndpoints } from "./endpoints.js";
+import { commonEndpoints } from "./endpoints.js";
 import Utils from "./authUtils.js";
 
 class TeacherStats {
     constructor() {
-        Utils.checkAuth(localStorage.getItem("token"), localStorage.getItem("role"));
+        Utils.checkAuth(commonEndpoints.checkAuth, localStorage.getItem("role"));
         TableAndStringsRenderer.setUserFacingStrings();
         this.usersAPIUsage();
         this.generalEndpointUsage();

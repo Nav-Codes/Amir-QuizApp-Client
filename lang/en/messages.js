@@ -76,6 +76,8 @@ export const studentMain = {
 }
 
 export const studentSession = {
+  enterSessionId: "Enter session ID",
+  joinSession: "Join Session",
   waitingForQuestion: "Waiting for teacher's question...",
   answerPlaceholder: "Enter answer..."
 }

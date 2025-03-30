@@ -1,46 +1,65 @@
-import { studentSession } from "../lang/en/messages.js";
+import { common, studentSession } from "../lang/en/messages.js";
+import { commonEndpoints, studentEndpoints } from "./endpoints.js";
 import Utils from "./authUtils.js"
 
 class SessionHandler {
-    get #BASE_ENDPOINT() { return "https://dolphin-app-nxbr6.ondigitalocean.app/api/v1" }
-    get #GET_QUESTION_ENDPOINT() { return `${this.#BASE_ENDPOINT}` };
-    get #SEND_ANSWER_ENDPOINT() { return `${this.#BASE_ENDPOINT}` };
-    get #CHECK_TOKEN_ENDPOINT() { return "https://dolphin-app-nxbr6.ondigitalocean.app/api/v1/checktoken" }
-
-    #currentQuestion = studentSession.waitingForQuestion; 
-    #currentAnswer = "";
+    #currentQuestion = studentSession.waitingForQuestion;
 
     constructor() {
-        Utils.checkAuth(this.#CHECK_TOKEN_ENDPOINT);
+        SessionRenderer.loadInitalUserStrings();
+        Utils.checkAuth(commonEndpoints.checkAuth);
         document.getElementById("sessionIdSubmit").addEventListener("click", () => {
-            this.loadSession();
+            this.joinSession();
         });
     }
 
-    async loadSession() {
-        let sessionCode = document.getElementById("sessionIdInput").value;
-        document.getElementById("sessionInput").remove();
-        this.createQuestionArea();
-        setInterval(() => {
-            this.getQuestion(localStorage.getItem("sessionId"));
-        }, 1000);
+    // async loadSession() {
+    //     let sessionCode = document.getElementById("sessionIdInput").value;
+    //     await this.joinSession(sessionCode);
+    //     document.getElementById("sessionInput").remove();
+    //     SessionRenderer.createQuestionArea();
+    //     setInterval(() => {
+    //         this.getQuestion(localStorage.getItem("sessionId"));
+    //     }, 1000);
+    // }
+
+    async joinSession() {
+        document.getElementById("sessionIdSubmit").disabled = true;
+        fetch(studentEndpoints.joinSession, {
+            method: "POST",
+            body: JSON.stringify({
+                session_code: document.getElementById("sessionIdInput").value,
+                token: localStorage.getItem("token")
+            })
+        }).then(response => {
+            return response.json();
+        }).then(data => {
+            console.log("Join Session data: " + data);
+            // localStorage.setItem("sessionId", data.sessionId);
+            // document.getElementById("sessionInput").remove();
+            // SessionRenderer.createQuestionArea();
+            // setInterval(() => {
+            //     this.getQuestion(localStorage.getItem("sessionId"));
+            // }, 1000);
+        });
     }
 
     /** This will create a fetch request to the server to request the question asked by teacher */
     async getQuestion(sessionCode) {
         await this.loadSession();
-        fetch(this.#GET_QUESTION_ENDPOINT, {
+        fetch(studentEndpoints.getQuestion, {
             method: "GET",
         }).then(response => {
             return response.json();
         }).then(data => {
+            console.log("Get question data: " + data);
             if (data.questionId !== null && data.teacherQuestion !== null) {
-                if (data.teacherQuestion !== this.#currentQuestion) {
-                    document.getElementById("teacherQuestion").innerHTML = data.teacherQuestion;
-                    this.#currentQuestion = data.teacherQuestion;
-                    document.getElementById("studentAnswer").disabled = false;
-                    document.getElementById("answerSubmitBtn").disabled = false;
-                }
+                // if (data.teacherQuestion !== this.#currentQuestion) {
+                //     document.getElementById("teacherQuestion").innerHTML = data.teacherQuestion;
+                //     this.#currentQuestion = data.teacherQuestion;
+                //     document.getElementById("studentAnswer").disabled = false;
+                //     document.getElementById("answerSubmitBtn").disabled = false;
+                // }
             }
         }).catch(error => {
             console.log("Error: " + error);
@@ -51,7 +70,7 @@ class SessionHandler {
      *  and server will say its right or wrong with grade
     */
     async sendAnswer(answer) {
-        fetch(this.#SEND_ANSWER_ENDPOINT, {
+        fetch(studentEndpoints.sendAnswer, {
             method: "POST",
             body: {
                 answer: answer
@@ -64,23 +83,16 @@ class SessionHandler {
             console.log("Error: " + error);
         })
     }
+}
 
-    // async joinSession(sessionCode) {
-    //     fetch(this.#JOIN_SESSION_ENDPOINT, {
-    //         method: "POST",
-    //         body: JSON.stringify({
-    //             session_code: sessionCode,
-    //             token: localStorage.getItem("token")
-    //         })
-    //     }).then(response => {
-    //         return response.json();
-    //     }).then(data => {
-    //         localStorage.setItem("sessionId", data.sessionId);
-    //         window.location.href = "studentSession.html";
-    //     })
-    // }
+class SessionRenderer {
+    static loadInitalUserStrings() {
+        document.getElementById("sessionId").innerHTML = studentSession.enterSessionId;
+        document.getElementById("sessionIdSubmit").innerHTML = studentSession.joinSession;
+        document.getElementById("logout").innerHTML = common.logout;
+    }
 
-    createQuestionArea() {
+    static createQuestionArea() {
         // Get the <div> element where the question area components will be placed
         const questionArea = document.getElementById("questionArea");
         questionArea.classList.add("container");

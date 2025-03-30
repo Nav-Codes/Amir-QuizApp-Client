@@ -4,3 +4,9 @@ export const commonEndpoints = {
     checkAuth: `${baseEndpoint}/checktoken`,
     logout: `${baseEndpoint}/logout`
 };
+
+export const studentEndpoints = {
+    joinSession: `${baseEndpoint}/joinsession`,
+    getQuestion: `${baseEndpoint}/retrivequestion`,
+    sendAnswer: `${baseEndpoint}/recieveanswer`
+}

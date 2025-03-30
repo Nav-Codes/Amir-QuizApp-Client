@@ -65,6 +65,8 @@ class SessionHandler {
         }).then(data => {
             if (Object.keys(data.question).length !== 0) {
                 if (data.question.text !== this.#currentQuestion) {
+                    console.log("Question Id: " + data.question.id);
+                    console.log("Question curr_question : " + data.question.curr_question);
                     document.getElementById("teacherQuestion").innerHTML = data.question.text;
                     this.#currentQuestion = data.question.text;
                     document.getElementById("studentAnswer").disabled = false;

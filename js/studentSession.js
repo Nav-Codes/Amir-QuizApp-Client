@@ -48,13 +48,14 @@ class SessionHandler {
             this.setupQuestionArea(data);
         }).catch(error => {
             console.log("Error: " + error);
-            document.getElementById("error").innerHTML = error; 
+            SessionRenderer.printError(error);
         })
     }
 
     setupQuestionArea(data) {
         localStorage.setItem("sessionId", data.sessionId);
         document.getElementById("sessionInput").remove();
+        document.getElementById("error").innerHTML = "";
         SessionRenderer.createQuestionArea();
         document.getElementById("answerSubmitBtn").addEventListener("click", () => {
             this.sendAnswer(document.getElementById("studentAnswer").value);

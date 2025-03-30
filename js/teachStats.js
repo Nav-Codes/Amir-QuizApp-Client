@@ -20,7 +20,7 @@ class TeacherStats {
                 return response.json();
             })
             .then(data => {
-                this.generateUserAPITable(data);
+                this.generateUserAPITable(data.data);
             })
             .catch(error => {
                 console.log("Error: " + error);
@@ -41,7 +41,7 @@ class TeacherStats {
                 return response.json();
             })
             .then(data => {
-                this.generateEndpointTable(data);
+                this.generateEndpointTable(data.data);
             })
             .catch(error => {
                 console.log("Error: " + error)

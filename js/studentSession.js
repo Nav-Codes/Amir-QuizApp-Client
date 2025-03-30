@@ -38,40 +38,40 @@ class SessionHandler {
             if (response.status !== 200) {
                 document.getElementById("sessionIdSubmit").disabled = false;
             }
-            console.log(response);
-            // console.log(JSON.parse(response));
             return response.json();
         }).then(data => {
-            console.log("Join Session data: " + data.toString());
-            console.log("Join Session data: " + data.sessionId);
-            // localStorage.setItem("sessionId", data.sessionId);
-            // document.getElementById("sessionInput").remove();
-            // SessionRenderer.createQuestionArea();
-            // setInterval(() => {
-            //     this.getQuestion(localStorage.getItem("sessionId"));
-            // }, 1000);
+            localStorage.setItem("sessionId", data.sessionId);
+            document.getElementById("sessionInput").remove();
+            SessionRenderer.createQuestionArea();
+            setInterval(() => {
+                this.getQuestion();
+            }, 1000);
         }).catch(error => {
             console.log("Error: " + error)
         })
     }
 
     /** This will create a fetch request to the server to request the question asked by teacher */
-    async getQuestion(sessionCode) {
+    async getQuestion() {
         await this.loadSession();
         fetch(studentEndpoints.getQuestion, {
-            method: "GET",
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                sessionId: localStorage.getItem("sessionId")
+            })
         }).then(response => {
             return response.json();
         }).then(data => {
             console.log("Get question data: " + data);
-            if (data.questionId !== null && data.teacherQuestion !== null) {
+            // if (data.questionId !== null && data.teacherQuestion !== null) {
                 // if (data.teacherQuestion !== this.#currentQuestion) {
                 //     document.getElementById("teacherQuestion").innerHTML = data.teacherQuestion;
                 //     this.#currentQuestion = data.teacherQuestion;
                 //     document.getElementById("studentAnswer").disabled = false;
                 //     document.getElementById("answerSubmitBtn").disabled = false;
                 // }
-            }
+            // }
         }).catch(error => {
             console.log("Error: " + error);
         })

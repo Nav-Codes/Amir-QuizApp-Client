@@ -109,6 +109,7 @@ class teacherSessionPage {
           const formData = new FormData();
           formData.append("sessionId", this.sessionId);
           formData.append("file", audioBlob);
+          formData.append("token", localStorage.getItem("token"));
           try {
             const response = await fetch(this.processQuestionEndpoint, {
               method: "POST",

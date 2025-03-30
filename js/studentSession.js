@@ -93,6 +93,7 @@ class SessionHandler {
      *  and server will say its right or wrong with grade
     */
     async sendAnswer(answer) {
+        console.log("ANSWER IS: " + answer);
         document.getElementById("studentAnswer").disabled = true;
         document.getElementById("answerSubmitBtn").disabled = true;
         fetch(studentEndpoints.sendAnswer, {

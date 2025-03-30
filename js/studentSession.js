@@ -39,15 +39,16 @@ class SessionHandler {
         }).then(response => {
             document.getElementById("statusCode").innerHTML = `${common.statusCode}${response.status}`;
             if (response.status !== 200) {
-                console.log("RESPONSE.STATUS: " + response.status);
                 document.getElementById("sessionIdSubmit").disabled = false;
+                throw new Error("Invalid session code.");
             }
             return response.json();
         }).then(data => {
             console.log("sessionId: " + data.sessionId)
             this.setupQuestionArea(data);
         }).catch(error => {
-            console.log("Error: " + error)
+            console.log("Error: " + error);
+            document.getElementById("error").innerHTML = error; 
         })
     }
 

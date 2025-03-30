@@ -38,6 +38,7 @@ class SessionHandler {
             if (response.status !== 200) {
                 document.getElementById("sessionIdSubmit").disabled = false;
             }
+            console.log(response);
             return response.json();
         }).then(data => {
             console.log("Join Session data: " + data);

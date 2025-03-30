@@ -83,6 +83,7 @@ export const studentSession = {
   waitingForQuestion: "Waiting for teacher's question...",
   answerPlaceholder: "Enter answer...",
   submitAnswer: "Submit Answer",
+  leaveSession: "Leave Session",
   score: "Score: "
 }
 

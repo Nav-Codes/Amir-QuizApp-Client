@@ -39,6 +39,7 @@ class SessionHandler {
         }).then(response => {
             document.getElementById("statusCode").innerHTML = `${common.statusCode}${response.status}`;
             if (response.status !== 200) {
+                console.log("RESPONSE.STATUS: " + response.status);
                 document.getElementById("sessionIdSubmit").disabled = false;
             }
             return response.json();
@@ -165,6 +166,13 @@ class SessionRenderer {
         button.classList.add("btn");
         button.classList.add("btn-blue");
 
+        // Create the <button> element to leave the session
+        const leaveSessionBtn = document.createElement("button");
+        leaveSessionBtn.innerHTML = studentSession.leaveSession;
+        leaveSessionBtn.id = "leaveSessionBtn";
+        leaveSessionBtn.classList.add("btn");
+        leaveSessionBtn.classList.add("btn-red");
+
         answerInput.disabled = true;
         button.disabled = true;
 
@@ -176,6 +184,7 @@ class SessionRenderer {
         questionArea.insertAdjacentElement("beforeend", answerInput);
         questionArea.insertAdjacentElement("beforeend", button);
         questionArea.insertAdjacentElement("beforeend", grade);
+        questionArea.insertAdjacentElement("beforeend", leaveSessionBtn);
     }
 }
 

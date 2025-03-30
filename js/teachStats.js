@@ -20,8 +20,8 @@ class TeacherStats {
                 return response.json();
             })
             .then(data => {
-                console.log(data.messsage);
-                console.log(data.data);
+                // console.log(data.messsage);
+                // console.log(data.data);
                 this.generateUserAPITable(data.data);
             })
             .catch(error => {
@@ -43,6 +43,8 @@ class TeacherStats {
                 return response.json();
             })
             .then(data => {
+                console.log(data.messsage);
+                console.log(data.data);
                 this.generateEndpointTable(data.data);
             })
             .catch(error => {
@@ -101,6 +103,8 @@ class TableAndStringsRenderer {
         });
 
         table.insertAdjacentElement("beforeend", tableBody);
+        table.style.border = "1px solid black";
+        table.style.padding = "2px";
     }
 
     /** Generates table headers for user endpoint consumption table */

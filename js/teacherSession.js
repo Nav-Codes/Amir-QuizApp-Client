@@ -209,7 +209,7 @@ class teacherSessionPage {
     const token = localStorage.getItem("token");
     try {
       const response = await fetch(this.endSessionEndpoint, {
-        method: "POST",
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ sessionId: this.sessionId, token }),
       });

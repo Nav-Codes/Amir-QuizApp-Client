@@ -93,7 +93,7 @@ class teacherMainPage {
     const token = localStorage.getItem("token");
   
     fetch(this.logoutEndpoint, {
-      method: 'POST',
+      method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ token })
     })

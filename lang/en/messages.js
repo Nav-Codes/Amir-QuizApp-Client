@@ -107,5 +107,7 @@ export const adminStatsMessages = {
   userIdHeader: "User id",
   nameHeader: "Name",
   emailHeader: "Email",
-  numRequestsHeader: "Number of requests"
+  numRequestsHeader: "Number of requests",
+  methodHeader: "Method",
+  endpointHeader: "Endpoint"
 }

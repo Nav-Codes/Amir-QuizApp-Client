@@ -22,25 +22,28 @@ class TeacherStats {
                 generateUserAPITable(data);
             })
             .catch(error => {
-
+                console.log("Error: " + error);
             })
     }
 
     // ChatGPT helped with the creation of the table
     generateUserAPITable(data) {
         this.generateUserTableHeaders();
+        this.generateUserTableBody(data);
     }
 
     generateUserTableHeaders() {
-        let userTable = document.getElementById("apiuserusage");
-
         let tableHead = document.createElement("thead");
         let headerRow = document.createElement("tr");
 
-        let userIdHeader = document.createElement("th").textContent = adminStatsMessages.userIdHeader;
-        let nameHeader = document.createElement("th").textContent = adminStatsMessages.nameHeader;
-        let emailHeader = document.createElement("th").textContent = adminStatsMessages.emailHeader;
-        let numReqHeader = document.createElement("th").textContent = adminStatsMessages.numRequestsHeader;
+        let userIdHeader = document.createElement("th");
+        userIdHeader.textContent = adminStatsMessages.userIdHeader;
+        let nameHeader = document.createElement("th");
+        nameHeader.textContent = adminStatsMessages.nameHeader;
+        let emailHeader = document.createElement("th");
+        emailHeader.textContent = adminStatsMessages.emailHeader;
+        let numReqHeader = document.createElement("th");
+        numReqHeader.textContent = adminStatsMessages.numRequestsHeader;
 
         headerRow.insertAdjacentElement("beforeend", userIdHeader);
         headerRow.insertAdjacentElement("beforeend", nameHeader);
@@ -48,11 +51,11 @@ class TeacherStats {
         headerRow.insertAdjacentElement("beforeend", numReqHeader);
 
         tableHead.insertAdjacentElement("beforeend", headerRow)
-        userTable.insertAdjacentElement("beforeend", tableHead);
+        document.getElementById("apiuserusage").insertAdjacentElement("beforeend", tableHead);
     }
 
     //ChatGPT helped with generating a dynamic process for inserting the data into the table
-    generateUserTableBody(data, userTable) {
+    generateUserTableBody(data) {
         let tableBody = document.createElement("tbody");
 
         data.forEach(userObj => {
@@ -67,7 +70,7 @@ class TeacherStats {
             tableBody.insertAdjacentElement("beforeend", userRow)
         });
 
-        userTable.insertAdjacentElement("beforeend", tableBody);
+        document.getElementById("apiuserusage").insertAdjacentElement("beforeend", tableBody);
     }
 
     async generalAPIUsage() {
@@ -83,6 +86,34 @@ class TeacherStats {
             .catch(error => {
 
             })
+    }
+
+    generateEndpointTable(data) {
+        this.generateEndpointTableHeaders();
+        this.generateEndpointTableBody(data);
+    }
+
+    generateEndpointTableHeaders() {
+        let tableHead = document.createElement("thead");
+        let headerRow = document.createElement("tr");
+
+        let methodHeader = document.createElement("th");
+        methodHeader.textContent = adminStatsMessages.methodHeader;
+        let endpointHeader = document.createElement("th");
+        endpointHeader.textContent = adminStatsMessages.endpointHeader;
+        let requestHeader = document.createElement("th");
+        requestHeader.textContent = adminStatsMessages.numRequestsHeader;
+        
+        headerRow.insertAdjacentElement("beforeend", methodHeader);
+        headerRow.insertAdjacentElement("beforeend", endpointHeader);
+        headerRow.insertAdjacentElement("beforeend", requestHeader);
+
+        tableHead.insertAdjacentElement("beforeend", headerRow);
+        document.getElementById("apiendpointusage").insertAdjacentElement("beforeend", tableHead);
+    }
+
+    generateEndpointTableBody(data) {
+        // let tableBody = document.cre
     }
 
     setUserFacingStrings() {

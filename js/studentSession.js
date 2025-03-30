@@ -174,10 +174,10 @@ class SessionRenderer {
         leaveSessionBtn.id = "leaveSessionBtn";
         leaveSessionBtn.classList.add("btn");
         leaveSessionBtn.classList.add("btn-red");
-        leaveSessionBtn.onclick(() => {
+        leaveSessionBtn.onclick = () => {
             localStorage.removeItem("questionId");
             window.location.href = "studentMain.html";
-        })
+        };
 
         answerInput.disabled = true;
         button.disabled = true;

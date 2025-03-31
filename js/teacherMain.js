@@ -154,5 +154,6 @@ class teacherMainPage {
 }
 
 utils.checkAuth('https://dolphin-app-nxbr6.ondigitalocean.app/api/v1/checktoken');
+utils.checkAPIUsage();
 utils.setteacherMainStrings();
 utils.buildTeacherMainPage('https://dolphin-app-nxbr6.ondigitalocean.app/api/v1/createsession', '/viewStats', 'https://dolphin-app-nxbr6.ondigitalocean.app/api/v1/logout');

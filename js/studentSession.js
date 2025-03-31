@@ -91,7 +91,7 @@ class SessionHandler {
     updateQuestionArea(data) {
         localStorage.setItem("questionId", data.question.id);
         document.getElementById("teacherQuestion").innerHTML = data.question.text;
-        document.getElementById("studentAnswer").innerHTML = "";
+        document.getElementById("studentAnswer").value = "";
         document.getElementById("studentGrade").innerHTML = "";
         this.#currentQuestion = data.question.text;
         document.getElementById("studentAnswer").disabled = false;

@@ -9,7 +9,8 @@ export const common = {
   continueSession: "Continue Session",
   endSession: "End Session",
   statusCode: "Status code: ",
-  totalAPI: "Total API consumtion: "
+  totalAPI: "Total API consumtion: ",
+  maxAPIcalls: " You have reached your limit for API calls. You have been warned! "
 };
 
 export const home = {

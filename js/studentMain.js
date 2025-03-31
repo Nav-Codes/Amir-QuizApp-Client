@@ -6,7 +6,8 @@ import Utils from "./authUtils.js";
 class StudentMain {
     constructor() {
         Utils.checkAuth(commonEndpoints.checkAuth);
-        
+        Utils.currentUserAPIUsage();
+
         let joinSessionBtn = document.getElementById("joinSession");
         joinSessionBtn.innerHTML = studentMain.joinASession;
         joinSessionBtn.addEventListener("click", () => {
@@ -18,9 +19,6 @@ class StudentMain {
         logoutBtn.addEventListener("click", () => {
             Utils.logout(commonEndpoints.logout, this.logout);
         })
-
-        document.getElementById("totalAPI").innerHTML = `${common.totalAPI}`;
-        document.getElementById("statusCode").innerHTML = `${common.statusCode}`;
     }
 
     /** Handles logout functionality for the client side */

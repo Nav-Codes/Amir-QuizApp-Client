@@ -1,6 +1,8 @@
 //ChatGPT helped with debugging callback and import issues with this code and other minor bugs
 
 import { errorMessages } from "../lang/en/messages.js";
+import { commonEndpoints } from "./endpoints.js";
+import { common } from "../lang/en/messages.js";
 
 export default class Utils {
     static checkAuth(tokenEndpoint) {
@@ -59,6 +61,31 @@ export default class Utils {
                     : `${errorMessages.logoutError} Network error or no response.`;
                 Utils.#printError(errorMessage);
             });
+    }
+
+    /** Shows the user how many api calls they have left.
+     * To use this function, ensure your page has <p> element with id="statusCode" and id="totalAPI"
+     */
+    static currentUserAPIUsage() {
+        fetch(`${commonEndpoints.singleAPIUsage}?token=${localStorage.getItem("token")}`, {
+            method: "GET"
+        })
+            .then(response => {
+                document.getElementById("statusCode").innerHTML = `${common.statusCode}${response.status}`;
+                return response.json()
+            })
+            .then(data => {
+                let apiCalls = document.getElementById("totalAPI");
+                apiCalls.insertAdjacentText("beforeend", common.totalAPI);
+                apiCalls.insertAdjacentText("beforeend", data.callsRemaining);
+                if (data.limitReached) {
+                    apiCalls.insertAdjacentText("beforeend", common.maxAPIcalls);
+                }
+            })
+            .catch(error => {
+                console.log(error);
+                Utils.#printError(error);
+            })
     }
 
     static #printError(message) {

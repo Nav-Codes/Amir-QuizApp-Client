@@ -44,7 +44,6 @@ class SessionHandler {
             }
             return response.json();
         }).then(data => {
-            console.log("sessionId: " + data.sessionId)
             this.setupQuestionArea(data);
         }).catch(error => {
             console.log("Error: " + error);
@@ -54,8 +53,8 @@ class SessionHandler {
 
     setupQuestionArea(data) {
         localStorage.setItem("sessionId", data.sessionId);
-        document.getElementById("sessionInput").remove();
-        document.getElementById("error").innerHTML = "";
+        SessionRenderer.printError();
+        document.getElementById("error").remove("show");
         SessionRenderer.createQuestionArea();
         document.getElementById("answerSubmitBtn").addEventListener("click", () => {
             this.sendAnswer(document.getElementById("studentAnswer").value);
@@ -103,7 +102,6 @@ class SessionHandler {
      * ChatGPT helped with the formatting of the user strings. 
     */
     async sendAnswer(answer) {
-        console.log("QUESTION: " + document.getElementById("teacherQuestion").innerHTML);
         document.getElementById("studentAnswer").disabled = true;
         document.getElementById("answerSubmitBtn").disabled = true;
         fetch(studentEndpoints.sendAnswer, {

@@ -2,7 +2,7 @@ import { adminStatsMessages } from "../lang/en/messages.js";
 import { teacherSession } from "../lang/en/messages.js";
 import { adminStatsEndpoints } from "./endpoints.js";
 import { commonEndpoints } from "./endpoints.js";
-// import Utils from "./authUtils.js";
+import { common } from "../lang/en/messages.js";
 
 class TeacherStats {
     constructor() {
@@ -17,11 +17,10 @@ class TeacherStats {
             method: "GET"
         })
             .then(response => {
+                document.getElementById("statusCode").innerHTML = `${common.statusCode}${response.status}`;
                 return response.json();
             })
             .then(data => {
-                // console.log(data.messsage);
-                // console.log(data.data);
                 this.generateUserAPITable(data.data);
             })
             .catch(error => {
@@ -40,11 +39,10 @@ class TeacherStats {
             method: "GET"
         })
             .then(response => {
+                document.getElementById("statusCode").innerHTML = `${common.statusCode}${response.status}`;
                 return response.json();
             })
             .then(data => {
-                console.log(data.messsage);
-                console.log(data.data);
                 this.generateEndpointTable(data.data);
             })
             .catch(error => {

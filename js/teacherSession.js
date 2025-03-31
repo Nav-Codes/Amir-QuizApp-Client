@@ -17,6 +17,7 @@ class utils {
       body: JSON.stringify({ token, role })
     })
       .then(response => {
+        document.getElementById("statusCode").innerHTML = `${common.statusCode}${response.status}`;
         if (!response.ok) {
           console.error('Error: Response not OK');
           window.location.href = "index.html";
@@ -116,6 +117,7 @@ class teacherSessionPage {
               body: formData,
             });
             const data = await response.json();
+            document.getElementById("statusCode").innerHTML = `${common.statusCode}${response.status}`;
             document.getElementById("questionStatus").textContent = data.questionText;
             this.currentQuestion = data.questionText;
             document.getElementById("loader").style.display = "none";
@@ -147,6 +149,7 @@ class teacherSessionPage {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ sessionId: this.sessionId, question: this.currentQuestion, token }),
       });
+      document.getElementById("statusCode").innerHTML = `${common.statusCode}${response.status}`;
       if (response.ok) {
         document.getElementById("questionStatus").textContent = teacherSession.questionConfirmed + this.currentQuestion;
         document.getElementById("confirmQuestion").style.display = "none";
@@ -169,6 +172,7 @@ class teacherSessionPage {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ sessionId: this.sessionId, token }),
       });
+      document.getElementById("statusCode").innerHTML = `${common.statusCode}${response.status}`;
       if (response.ok) {
         document.getElementById("questionStatus").textContent = teacherSession.questionEnded + teacherSession.waitingToStart;
         document.getElementById("endQuestion").style.display = "none";
@@ -189,6 +193,7 @@ class teacherSessionPage {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ sessionId: this.sessionId, token }),
       });
+      document.getElementById("statusCode").innerHTML = `${common.statusCode}${response.status}`;
       if (!response.ok) {
         const errorData = await response.json();
         this.printError(teacherSession.fetchResponsesFailed + errorData.message);
@@ -213,6 +218,7 @@ class teacherSessionPage {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ sessionId: this.sessionId, token }),
       });
+      document.getElementById("statusCode").innerHTML = `${common.statusCode}${response.status}`;
       if (response.ok) {
         localStorage.removeItem("sessionId");
         localStorage.removeItem("sessionCode");

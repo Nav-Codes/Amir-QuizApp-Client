@@ -1,6 +1,7 @@
 import { common } from '../lang/en/messages.js';
 import { teacherMain } from '../lang/en/messages.js';
 import { errorMessages } from '../lang/en/messages.js';
+import { commonEndpoints } from './endpoints.js';
 class utils {
   static checkAuth(tokenEndpoint) {
     const token = localStorage.getItem("token");
@@ -15,17 +16,49 @@ class utils {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ token, role })
     })
-    .then(response => {
-      if (!response.ok) {
-        console.error('Error: Response not OK');
+      .then(response => {
+        if (!response.ok) {
+          console.error('Error: Response not OK');
+          window.location.href = "index.html";
+          return;
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
         window.location.href = "index.html";
-        return; 
-      }
+      });
+  }
+
+  static checkAPIUsage() {
+    fetch(`${commonEndpoints.singleAPIUsage}?token=${localStorage.getItem("token")}`, {
+      method: "GET"
     })
-    .catch((error) => {
-      console.error('Error:', error);
-      window.location.href = "index.html";
-    });
+      .then(response => {
+        document.getElementById("statusCode").innerHTML = `${common.statusCode}${response.status}`;
+        return response.json()
+      })
+      .then(data => {
+        let apiCalls = document.getElementById("totalAPI");
+        apiCalls.insertAdjacentText("beforeend", common.apiCallsRemaining);
+        apiCalls.insertAdjacentText("beforeend", data.callsRemaining);
+        if (data.limitReached) {
+          apiCalls.insertAdjacentText("beforeend", common.maxAPIcalls);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        utils.printError(error);
+      })
+  }
+
+  static printError(message) {
+    const errorDiv = document.getElementById("error");
+    if (message) {
+      errorDiv.innerHTML = message;
+      errorDiv.classList.add("show");
+    } else {
+      errorDiv.classList.remove("show");
+    }
   }
 
   static setteacherMainStrings() {
@@ -74,7 +107,7 @@ class teacherMainPage {
       })
       .catch((error) => {
         console.error('Error:', error);
-        this.printError(`${errorMessages.startSessionError} ${error.message}`);
+        utils.printError(`${errorMessages.startSessionError} ${error.message}`);
       });
   }
 
@@ -84,14 +117,14 @@ class teacherMainPage {
     if (sessionId) {
       window.location.href = `teacherSession.html?sessionId=${sessionId}`;
     } else {
-      this.printError(errorMessages.noSessionFound);
+      utils.printError(errorMessages.noSessionFound);
     }
   }
 
   logout(event) {
     event.preventDefault();
     const token = localStorage.getItem("token");
-  
+
     fetch(this.logoutEndpoint, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
@@ -115,19 +148,8 @@ class teacherMainPage {
         const errorMessage = error.message.includes("Status:")
           ? error.message
           : `${errorMessages.logoutError} Network error or no response.`;
-        this.printError(errorMessage);
+        utils.printError(errorMessage);
       });
-  }
-  
-
-  printError(message) {
-    const errorDiv = document.getElementById("error");
-    if (message) {
-      errorDiv.innerHTML = message;
-      errorDiv.classList.add("show");
-    } else {
-      errorDiv.classList.remove("show");
-    }
   }
 }
 

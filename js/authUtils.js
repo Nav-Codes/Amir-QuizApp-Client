@@ -76,7 +76,7 @@ export default class Utils {
             })
             .then(data => {
                 let apiCalls = document.getElementById("totalAPI");
-                apiCalls.insertAdjacentText("beforeend", common.totalAPI);
+                apiCalls.insertAdjacentText("beforeend", common.apiCallsRemaining);
                 apiCalls.insertAdjacentText("beforeend", data.callsRemaining);
                 if (data.limitReached) {
                     apiCalls.insertAdjacentText("beforeend", common.maxAPIcalls);

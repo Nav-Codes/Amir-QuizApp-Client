@@ -130,6 +130,7 @@ class SessionRenderer {
         document.getElementById("sessionId").innerHTML = studentSession.enterSessionId;
         document.getElementById("sessionIdSubmit").innerHTML = studentSession.joinSession;
         document.getElementById("logout").innerHTML = common.logout;
+        document.getElementById("backToMainPage").innerHTML = studentSession.backToDashboard;
     }
 
     static printError(message) {

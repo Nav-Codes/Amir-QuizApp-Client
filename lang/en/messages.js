@@ -9,7 +9,7 @@ export const common = {
   continueSession: "Continue Session",
   endSession: "End Session",
   statusCode: "Status code: ",
-  totalAPI: "Total API consumtion: ",
+  apiCallsRemaining: "Number of API calls remaining: ",
   maxAPIcalls: " You have reached your limit for API calls. You have been warned! "
 };
 
@@ -81,6 +81,7 @@ export const studentMain = {
 export const studentSession = {
   enterSessionId: "Enter session ID",
   joinSession: "Join Session",
+  backToDashboard: "Back to Student Dashborad",
   waitingForQuestion: "Waiting for teacher's question...",
   answerPlaceholder: "Enter answer...",
   submitAnswer: "Submit Answer",

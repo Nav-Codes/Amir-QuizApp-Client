@@ -50,11 +50,11 @@ class loginPage {
               this.printError(login.unknownRole);
             }
           } else {
-            this.printError(login.loginFailed + data.message);
+            this.printError(login.loginFailed + data.msg);
           }
         } catch (error) {
           console.error("Error:", error);
-          this.printError(login.loginFailed);
+          this.printError(login.loginFailed + error);
         }
       });
     });

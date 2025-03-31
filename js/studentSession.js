@@ -54,7 +54,7 @@ class SessionHandler {
     setupQuestionArea(data) {
         localStorage.setItem("sessionId", data.sessionId);
         SessionRenderer.printError();
-        document.getElementById("error").remove("show");
+        document.getElementById("sessionInput").remove();
         SessionRenderer.createQuestionArea();
         document.getElementById("answerSubmitBtn").addEventListener("click", () => {
             this.sendAnswer(document.getElementById("studentAnswer").value);
@@ -92,6 +92,7 @@ class SessionHandler {
         localStorage.setItem("questionId", data.question.id);
         document.getElementById("teacherQuestion").innerHTML = data.question.text;
         document.getElementById("studentAnswer").innerHTML = "";
+        document.getElementById("studentGrade").innerHTML = "";
         this.#currentQuestion = data.question.text;
         document.getElementById("studentAnswer").disabled = false;
         document.getElementById("answerSubmitBtn").disabled = false;

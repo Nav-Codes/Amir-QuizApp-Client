@@ -36,12 +36,11 @@ class loginPage {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password })
           });
-
+          document.getElementById("statusCode").innerHTML = `${common.statusCode}${response.status}`;
           const data = await response.json();
 
           if (response.ok) {
             localStorage.setItem("token", data.token);
-            // localStorage.setItem("user", JSON.stringify(data.user));
             localStorage.setItem("role", data.user.role);
             if (data.user.role === "teacher") {
               window.location.href = "teacherMain.html";
@@ -55,7 +54,7 @@ class loginPage {
           }
         } catch (error) {
           console.error("Error:", error);
-          this.printError(login.loginFailed + error);
+          this.printError(login.loginFailed);
         }
       });
     });

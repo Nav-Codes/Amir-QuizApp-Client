@@ -24,7 +24,7 @@ export const login = {
   formEmail: 'Email',
   formPassword: 'Password',
   unknownRole: 'Unknown role. Contact admin.',
-  loginFailed: 'Login failed: '
+  loginFailed: 'Login failed: Invalid email or password'
 }
 
 export const logout = {

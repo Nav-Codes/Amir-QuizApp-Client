@@ -12,7 +12,7 @@ class utils {
     if (params.has("error")) {
         const errorCode = params.get("error");
         console.error(`Error: ${errorCode}`);
-        document.getElementById("statusCode").innerHTML = `${common.errorMessage}${errorCode}`;
+        document.getElementById("statusCode").innerHTML = `${common.statusCode}${errorCode}`;
     }
   }
 }

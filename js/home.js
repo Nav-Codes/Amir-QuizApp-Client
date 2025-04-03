@@ -8,6 +8,12 @@ class utils {
     document.getElementById("login").innerHTML = common.login;
     document.getElementById("signup").innerHTML = common.signup;
     document.getElementById("description").innerHTML = home.description;
+    const params = new URLSearchParams(window.location.search);
+    if (params.has("error")) {
+        const errorCode = params.get("error");
+        console.error(`Error: ${errorCode}`);
+        document.getElementById("statusCode").innerHTML = `${common.errorMessage}${errorCode}`;
+    }
   }
 }
 utils.setUserFacingString();

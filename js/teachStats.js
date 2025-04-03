@@ -71,7 +71,7 @@ class TeacherStats {
             .then(response => {
                 if (!response.ok) {
                     console.error('Error: Response not OK');
-                    window.location.href = "index.html";
+                    window.location.href = "index.html" + `?error=${response.status}`;
                     return;
                 }
             })

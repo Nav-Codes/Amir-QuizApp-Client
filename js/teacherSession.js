@@ -36,7 +36,7 @@ class utils {
     document.getElementById("sessionCodeLabel").innerText = teacherSession.sessionCodeLabel;
     const sessionCode = localStorage.getItem("sessionCode");
     document.getElementById("sessionCode").innerText = sessionCode || teacherSession.sessionCodeLoading;
-    document.getElementById("sessionLinkLabel").innerText = teacherSession.sessionLinkLabel;
+    // document.getElementById("sessionLinkLabel").innerText = teacherSession.sessionLinkLabel;
     document.getElementById("askQuestionTitle").innerText = teacherSession.askQuestionTitle;
     document.getElementById("startRecording").innerText = teacherSession.startRecording;
     document.getElementById("questionStatus").innerText = teacherSession.questionStatusWaiting;
@@ -76,7 +76,7 @@ class teacherSessionPage {
       this.printError(errorMessages.noSessionIdFound);
     }
     if (this.sessionId) {
-      document.getElementById("sessionLink").innerHTML = `${window.location.origin}/studentSession.html?sessionId=${this.sessionId}`;
+      // document.getElementById("sessionLink").innerHTML = `${window.location.origin}/studentSession.html?sessionId=${this.sessionId}`;
     }
     this.audioVisualizer = new AudioVisualizer("audioVisualizer");
   }

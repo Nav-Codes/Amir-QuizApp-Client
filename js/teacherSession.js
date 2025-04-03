@@ -8,7 +8,7 @@ class utils {
     const role = localStorage.getItem("role");
     if (!token || !role || role !== "teacher") {
       console.log('No token or role found, redirecting to index.html');
-      window.location.href = "index.html";
+      window.location.href = "index.html?error=401";
       return;
     }
     fetch(tokenEndpoint, {
@@ -20,7 +20,7 @@ class utils {
         document.getElementById("statusCode").innerHTML = `${common.statusCode}${response.status}`;
         if (!response.ok) {
           console.error('Error: Response not OK');
-          window.location.href = "index.html";
+          window.location.href = "index.html" + `?error=${response.status}`;
           return;
         }
       })
